@@ -1,0 +1,81 @@
+% System Architecture Diagram (TikZ)
+% Add to preamble: \usepackage{tikz}
+% Add to preamble: \usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    box/.style={rectangle, draw, thick, minimum width=2.5cm, minimum height=1cm, text centered, rounded corners},
+    camera/.style={rectangle, draw, thick, minimum width=2cm, minimum height=0.7cm, fill=blue!10},
+    process/.style={rectangle, draw, thick, minimum width=3cm, minimum height=1cm, fill=green!10},
+    storage/.style={cylinder, draw, thick, minimum width=2cm, minimum height=1cm, fill=yellow!10, shape border rotate=90},
+    decision/.style={diamond, draw, thick, minimum width=2cm, minimum height=1cm, fill=orange!10},
+    arrow/.style={-{Stealth[length=3mm]}, thick},
+    privacy/.style={rectangle, draw, dashed, thick, fill=red!5, minimum width=3cm, minimum height=0.8cm}
+]
+
+% Camera Layer (Top)
+\node[camera] (cam1) at (0,6) {Camera 1 (0°)};
+\node[camera] (cam2) at (3,6) {Camera 2 (90°)};
+\node[camera] (cam3) at (6,6) {Camera 3 (180°)};
+\node[camera] (cam4) at (9,6) {Camera 4 (270°)};
+
+% Camera specs
+\node[above=0.1cm of cam1, font=\tiny] {850nm IR};
+\node[above=0.1cm of cam2, font=\tiny] {850nm IR};
+\node[above=0.1cm of cam3, font=\tiny] {850nm IR};
+\node[above=0.1cm of cam4, font=\tiny] {850nm IR};
+
+% Video frames
+\node[process] (frames) at (4.5,4.2) {Video Frames (Multi-stream)};
+\draw[arrow] (cam1) -- (frames);
+\draw[arrow] (cam2) -- (frames);
+\draw[arrow] (cam3) -- (frames);
+\draw[arrow] (cam4) -- (frames);
+
+% Edge Processing Unit
+\node[box, fill=gray!20, minimum width=8cm, minimum height=4cm] (edge) at (4.5,0.5) {};
+\node[above=0.1cm of edge.north, font=\small\bfseries] {NVIDIA Jetson Orin Nano 8GB (Edge Processor)};
+
+% Processing Pipeline (Inside Edge)
+\node[process] (yolo) at (4.5,2.3) {YOLOv8n Person Detection};
+\node[process] (mediapipe) at (4.5,1.2) {MediaPipe Pose Estimation};
+\node[process] (keypoints) at (4.5,0.1) {17 Keypoints (COCO format)};
+
+\draw[arrow] (frames) -- node[right, font=\tiny] {Real-time} (yolo);
+\draw[arrow] (yolo) -- node[right, font=\tiny] {ROI Crop} (mediapipe);
+\draw[arrow] (mediapipe) -- (keypoints);
+
+% Privacy Mechanisms (Right side)
+\node[privacy] (privacy1) at (9.5,2.3) {\footnotesize Immediate Frame Disposal};
+\node[privacy] (privacy2) at (9.5,1.2) {\footnotesize No Facial Landmarks};
+\node[privacy] (privacy3) at (9.5,0.1) {\footnotesize Pose-Only Storage};
+
+\draw[dashed, red, arrow] (yolo.east) -- (privacy1.west);
+\draw[dashed, red, arrow] (mediapipe.east) -- (privacy2.west);
+\draw[dashed, red, arrow] (keypoints.east) -- (privacy3.west);
+
+% Storage (Bottom)
+\node[storage, below=1.2cm of edge] (storage) {Local Storage};
+\node[below=0.1cm of storage, font=\tiny] {(Pose data only)};
+\draw[arrow] (keypoints) -- (storage);
+
+% Alert System
+\node[box, fill=orange!20, right=1.5cm of storage] (alert) {Local Alert};
+\draw[arrow] (storage) -- (alert);
+
+% Privacy Note
+\node[privacy, minimum width=8cm] at (4.5,-3.3) {\footnotesize 100\% On-Device Processing | Zero Cloud Transmission};
+
+% Coverage annotation
+\node[above=0.5cm of frames, font=\small\bfseries] {360° Coverage (4 cameras × 90° spacing)};
+
+\end{tikzpicture}
+\caption{Privacy Governance-Driven System Architecture: Edge-Based Elderly Safety Monitoring}
+\label{fig:system_architecture}
+\begin{flushleft}
+\footnotesize
+\textit{Note.} Architecture enforces privacy through three mechanisms: (1) pose-only storage (17 body keypoints, no facial landmarks), (2) immediate video frame disposal after keypoint extraction, and (3) 100\% on-device processing with zero cloud transmission. All computation occurs on local NVIDIA Jetson Orin Nano edge device, eliminating network exposure and cloud data sovereignty concerns. Four 850nm IR cameras positioned at 90° intervals provide comprehensive spatial coverage while maintaining privacy-preserving pose-based monitoring.
+\end{flushleft}
+\end{figure}

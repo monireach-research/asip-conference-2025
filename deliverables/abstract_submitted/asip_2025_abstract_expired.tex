@@ -1,0 +1,59 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{newtxtext,newtxmath}  % Times New Roman
+\usepackage{microtype}
+\usepackage{enumitem}
+
+% Spacing settings
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+\begin{document}
+
+% Title
+\begin{center}
+    {\fontsize{16}{19}\selectfont\textbf{Privacy Governance-Driven Design of AI-Powered Elderly Safety Monitoring for Cambodia}}
+\end{center}
+
+\vspace{0.5em}
+
+% Author 1
+\textbf{Author:} Monireach Tang (Graduate Student)\\
+\textbf{Institution/University:} Cambodia University of Technology and Science (CamTech)\\
+\textbf{Email:} monireach.tang@gmail.com
+
+\vspace{0.3em}
+
+% Author 2
+\textbf{Author:} His Excellency Dr. Seingheng Hul\\
+\textbf{Institution/University:} General Department of Science, Technology and Innovation, Ministry of Industry, Science, Technology and Innovation\\
+\textbf{Email:} [To be provided]
+
+\vspace{0.3em}
+
+% Author 3
+\textbf{Author:} Asst. Prof. Dr. May Thu (Associate Dean of School of Graduate Studies)\\
+\textbf{Institution/University:} Cambodia University of Technology and Science (CamTech)\\
+\textbf{Email:} may.thu@camtech.edu.kh
+
+\vspace{1em}
+
+% Abstract body
+\textbf{Purpose} -- Elderly populations are increasing globally, but Cambodia faces healthcare shortages and geographic inequalities that limit safety monitoring access. Traditional cloud-based systems transmit sensitive video footage to remote servers, creating surveillance risks where administrators can access elderly private activities. This paper demonstrates that privacy governance principles can drive technical architecture design from inception, embedding privacy protection into system architecture rather than retrofitting it afterward.
+
+\textbf{Design/methodology/approach} -- The system design prioritizes privacy governance principles from inception. Hardware comprises three RGB cameras with infrared night vision and an NVIDIA Jetson Orin Nano edge computing platform. Privacy protection is achieved through immediate conversion of video frames to skeletal coordinates, storing only pose data while permanently deleting original footage. The processing pipeline integrates YOLOv8n person detection, MediaPipe pose estimation, and a hybrid CNN+LSTM+Transformer architecture for temporal pattern analysis and incident classification.
+
+\textbf{Findings} -- The design achieves 100\% on-device processing with zero cloud transmission of sensitive data. Total system cost is \$475 (one-time purchase) compared to commercial alternatives requiring \$99 hardware plus \$45/monthly subscriptions, achieving 72-78\% cost savings over three years. The system targets approximately 180,000 elderly in top 50\% urban households.
+
+\textbf{Originality/value} -- This research demonstrates that privacy governance can drive technical architecture from inception rather than being retrofitted after deployment. The design demonstrates feasibility of privacy-preserving AI in resource-constrained contexts, improving accessibility for developing country populations. Future work includes empirical validation of detection accuracy, alert latency, and system reliability.
+
+\vspace{1em}
+
+% Keywords and Paper type at bottom
+\textbf{Keywords}: Privacy governance, Edge computing, Elderly safety monitoring, Privacy-by-design, Developing countries\\
+\textbf{Paper type}: Technical paper
+
+\end{document}

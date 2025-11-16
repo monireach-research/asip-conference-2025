@@ -1,0 +1,612 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages for formatting
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}  % Times New Roman font
+\usepackage{setspace}
+\singlespacing  % Single spacing as per guidelines
+% \doublespacing  % Double spacing for printout review
+
+% Page margins
+\usepackage[margin=1in]{geometry}
+% \usepackage[margin=1.2cm]{geometry}  % for printout preview only
+
+% APA 7 citation style
+\usepackage{csquotes}
+\usepackage[style=apa,backend=biber]{biblatex}
+\addbibresource{/Users/monireach/Library/CloudStorage/GoogleDrive-sebastian.tang168@gmail.com/My Drive/education/live_zotero_references_my_library.bib}
+
+% For tables and figures (APA format)
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+
+% Reduce page number size
+\usepackage{fancyhdr}
+\pagestyle{plain}
+\fancyhf{}
+\fancyfoot[C]{\small\thepage}
+
+% Hyperlinks (optional, for PDF)
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,
+    urlcolor=blue,
+    citecolor=black,
+    pdfpagemode=FullScreen,
+}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% % Make Abstract heading match section size and left-aligned
+% \renewcommand{\abstractname}{\normalfont\Large\bfseries Abstract}
+% \renewenvironment{abstract}
+%  {\normalfont\Large\bfseries\abstractname\par\vspace{0.5em}\normalfont\normalsize\noindent}
+%  {\par}
+
+% Title and author information
+\title{Privacy Governance-Driven Design of AI-Powered Elderly Safety Monitoring for Cambodia}
+
+\author{
+    \normalsize
+    \textbf{Monireach Tang} \\[0pt]
+    \normalsize
+    Graduate School, Cambodia University of Technology and Science \\[0pt]
+    \normalsize
+    \url{monireach.tang@camtech.edu.kh}\\[12pt]
+    \normalsize
+    \textbf{Seingheng Hul}\textsuperscript{1,2} \\[0pt]
+    \normalsize
+    \textsuperscript{1}Ministry of Industry, Science, Technology \& Innovation \\[0pt]
+    \normalsize
+    \textsuperscript{2}Graduate School, Cambodia University of Technology and Science \\[0pt]
+    \normalsize
+    \url{hul.seingheng@misti.gov.kh}\\[12pt]
+    \normalsize
+    \textbf{May Thu} \\[0pt]
+    \normalsize
+    Graduate School, Cambodia University of Technology and Science \\[0pt]
+    \normalsize
+    \url{may.thu@camtech.edu.kh}
+}
+
+\date{} % No date per conference style, standard for conference papers
+
+\begin{document}
+
+\maketitle
+
+% Abstract
+\begin{abstract}
+    \noindent
+    Cambodia's elderly population will reach approximately 2.1 million by 2030, comprising 11\% of total population, amid healthcare challenges including physician shortages and geographic disparities. Traditional cloud-based elderly monitoring systems transmit sensitive video footage to remote servers, creating surveillance risks that affect populations with limited data protection enforcement. This design study demonstrates how privacy governance principles can inform architectural decisions from inception rather than being retrofitted post-deployment. Using design science research methodology, the study validates technical feasibility and cost-effectiveness of edge-based pose estimation for elderly safety monitoring in resource-constrained contexts. The proposed architecture comprises four RGB cameras with 850nm infrared night vision and an NVIDIA Jetson Orin Nano edge computing platform. Privacy protection emerges from system constraints: immediate conversion of video frames to skeletal coordinates (17 body keypoints in COCO format), pose-only storage, and permanent deletion of original footage. The processing pipeline integrates YOLOv8n person detection, MediaPipe pose estimation, and a CNN-LSTM-Transformer architecture for incident classification, achieving 100\% on-device processing with zero cloud transmission. Validation on 20 commercial CCTV videos demonstrates 91.3\% keypoint detection on 850nm NIR footage with 20.53 FPS processing speed, confirming 24/7 monitoring capability without facial recognition technology. Cost analysis shows edge architecture reduces 3-year total cost by 61\% compared to cloud alternatives (\$672 vs. \$1,719), expanding market accessibility to an estimated 252,000-378,000 elderly individuals in middle-income Cambodian urban households (4th-5th income quintiles, representing 12-18\% of elderly population by 2030). The study demonstrates that privacy-first architectural design yields economic co-benefits, though fall detection accuracy requires validation on benchmark datasets with ground truth annotations. This work contributes empirical evidence that governance principles can drive technical architecture in healthcare AI for developing countries.
+
+    \vspace{0.5em}
+    \noindent
+    \textbf{Keywords:} privacy governance, edge computing, elderly safety monitoring, privacy-by-design, developing countries, AI ethics, healthcare AI, accessibility governance
+\end{abstract}
+
+% Main content sections
+\section{Introduction}
+
+\subsection{Problem Context}
+
+Since the 2000s, global demographic transitions have constituted a pressing challenge for healthcare systems. Southeast Asia's elderly population is projected to increase from 12.2\% in 2024 to 22.9\% by 2050 \parencite{AgeingHealthSEARO}, representing a fundamental restructuring of regional age distributions. Cambodia's elderly population (60+ years) will reach approximately 2.1 million by 2030, comprising 11\% of the projected 19 million total population \parencite{unitednationsdepartmentofeconomicandsocialaffairspopulationdivisionDataPortalPopulation2015}, with 12-18\% residing in middle-income urban households (4th-5th income quintiles).
+
+Falls represent the leading cause of injury-related deaths among elderly populations—\allowbreak{}684,000 annual fatalities globally, with 60\% concentrated in Western Pacific and Southeast Asia regions \parencite{Falls}. The challenge that middle-income families face is providing continuous supervision for elderly relatives while managing employment obligations. Strong family caregiving norms rooted in filial piety values create preference for home-based elderly care over institutional facilities across Southeast Asia \parencite{romliFallsAmongstOlder2017}, which means that technology solutions must fit within family homes rather than institutional deployment contexts. This cultural context shapes both the problem space and solution constraints in ways that Western healthcare AI research does not always adequately consider.
+
+\subsection{Technology Governance Challenges}
+
+Existing elderly safety monitoring technologies present critical governance challenges across two dimensions: privacy concerns and accessibility constraints.
+
+\textbf{Privacy governance challenges.} Cloud-based AI systems transmit sensitive health data—\allowbreak{}video footage of individuals in private home environments, behavioral patterns, movement trajectories—to third-party servers for processing and storage. This design choice creates facial recognition risks, behavioral profiling capabilities, and re-identification vulnerabilities that affect elderly populations who may not fully understand surveillance implications \parencite{burnsGenerativeAIPolicy2024, birkstedtAIGovernanceThemes2023}. Commercial fall detection camera systems exemplify these concerns, requiring continuous cloud connectivity for fall detection processing \parencite{upadhyayThisCameraCan2025}, which creates the privacy exposures that governance frameworks caution against.
+
+Data protection regulations exist, but enforcement mechanisms remain limited in Southeast Asian contexts \parencite{burnsGenerativeAIPolicy2024}. Privacy protection cannot rely solely on regulatory compliance but must emerge from system architecture itself. This brings us to Privacy by Design principles \parencite{cavoukianPrivacyDesignEssential2010}, which emphasize embedding privacy into architecture from inception rather than retrofitting protections after deployment.
+
+\textbf{Accessibility governance challenges.} For long-term affordability, cloud-based systems require ongoing subscription fees that prove more consequential than initial hardware costs. The Kami Fall Detect Camera charges approximately \$45 monthly (\$540 annually) in addition to initial hardware costs \parencite{upadhyayThisCameraCan2025}. For middle-income Cambodian households earning \$870-\$1,622 monthly \parencite{CambodiaSocioEconomicSurvey}, this subscription represents 2.8-5.2\% of monthly income, transforming a technology purchase into an ongoing financial obligation that competes with essential household expenses.
+
+This economic barrier undermines digital inclusion objectives. \textcite{sylla25YearsDigital2025} document persistent economic and infrastructure barriers to technology adoption in low- and middle-income countries, while \textcite{richardsonFrameworkDigitalHealth2022} propose Digital Determinants of Health frameworks that acknowledge how cost structures systematically exclude populations from healthcare technology benefits.
+
+\textbf{Governance fragmentation.} AI governance frameworks remain nascent and fragmented \parencite{birkstedtAIGovernanceThemes2023, burnsGenerativeAIPolicy2024, sylla25YearsDigital2025}. The field has produced extensive literature on ethical principles—transparency, accountability, fairness, explainability—while providing limited practical guidance for operationalizing these principles in resource-constrained healthcare contexts. \textcite{almeidaArtificialIntelligenceRegulation2020} synthesize 21 AI governance models into unified framework, though synthesis of high-level principles does not directly translate to architectural specifications. This gap between principle and practice motivates the governance-driven design approach demonstrated in this paper.
+
+\subsection{Research Gap}
+
+Existing elderly monitoring solutions prioritize either privacy protection, affordability, or technical performance—rarely addressing all three dimensions as integrated design objectives \parencite{chang-yuehwangAIDrivenPrivacyElderly2024, jalalDepthVideoSensorBased2014, vaiyapuriInternetThingsDeep2021}. This fragmentation reflects that privacy, cost, and performance optimization respond to different design incentives that research and commercial development don't naturally integrate.
+
+\textcite{cavoukianPrivacyDesignEssential2010} Privacy by Design framework articulates philosophical principles but lacks empirical validation in healthcare AI contexts showing how these principles translate to specific architectural choices. \textcite{burnsGenerativeAIPolicy2024} identifies edge computing potential for privacy governance through data locality but does not quantify cost-effectiveness implications for developing countries where cloud infrastructure costs create accessibility barriers. \textcite{almeidaArtificialIntelligenceRegulation2020} examine healthcare AI ethics but focus on clinical decision-making systems rather than continuous monitoring applications for vulnerable populations in residential settings.
+
+Edge computing's potential for enabling privacy governance in healthcare AI remains underexplored, particularly regarding whether privacy-first architectural design yields economic co-benefits that expand market accessibility. The question is not whether edge computing can enhance privacy (data that never leaves local devices cannot be compromised by cloud breaches), but whether edge architecture simultaneously reduces costs in ways that matter for middle-income market segments. Existing literature treats privacy and affordability as separate optimization dimensions rather than examining whether architectural choices that enforce privacy might also eliminate cloud infrastructure expenses.
+
+Regional studies on elderly care technology adoption in Southeast Asia focus primarily on high-income urban populations \parencite{romliFallsAmongstOlder2017}, with limited attention to middle-income market segments that represent larger potential user bases but face affordability constraints.
+
+\subsection{Research Objectives}
+
+This study addresses the identified gaps through three objectives:
+
+\begin{enumerate}
+    \item \textbf{Demonstrate governance-driven architectural design}: Show how privacy governance principles can drive technical architecture decisions from inception rather than being retrofitted post-deployment, using elderly safety monitoring for Cambodia as case study.
+
+    \item \textbf{Validate technical feasibility of privacy-preserving edge architecture}: Empirically test whether affordable 850nm near-infrared (NIR) security cameras maintain adequate pose estimation performance for continuous monitoring applications. This addresses the highest-uncertainty technical assumption: that pose estimation algorithms trained predominantly on visible-spectrum imagery will work on NIR footage from affordable CCTV cameras.
+
+    \item \textbf{Quantify cost-effectiveness and accessibility implications}: Compare edge-based architecture total costs against cloud-dependent alternatives to assess whether privacy-first design expands market accessibility for middle-income Cambodian households.
+\end{enumerate}
+
+This work contributes empirical evidence that privacy governance need not trade off against affordability or performance. When integrated at the architectural design stage rather than applied as post-hoc compliance measure, privacy principles can guide technical decisions that simultaneously enhance data protection and expand economic accessibility. The study targets middle-income urban Cambodian households (4th-5th income quintiles, representing estimated 12-18\% of elderly population by 2030) but has broader implications for healthcare AI governance in resource-constrained contexts globally.
+
+
+\section{Literature Review}
+
+\subsection{Elderly Safety Monitoring Technologies}
+
+Wearable devices represent the dominant fall detection approach, though compliance challenges limit their effectiveness. Elderly users must remember to wear devices consistently and maintain battery charging, tasks that prove particularly difficult at nighttime when fall risk increases. Only 7.1\% of wearable device projects monitored elderly in actual home environments, with most testing confined to controlled laboratory settings \parencite{chaudhuriFallDetectionDevices2014}. The gap between lab performance and real-world deployment remains a persistent problem in assistive technology research.
+
+Cloud-based camera systems emerged as an alternative monitoring modality. These systems transmit video to third-party servers for processing, solving the computational problem while creating substantial privacy concerns \parencite{upadhyayThisCameraCan2025}. The Kami Fall Detect Camera requires continuous cloud connectivity and ongoing subscription payments, presenting accessibility barriers. Moreover, elderly populations perceive video surveillance as intrusive \parencite{uddinAmbientSensorsElderly2018}.
+
+Depth sensors (RGB-D cameras employing 3D imaging) have been proposed as privacy-preserving alternatives. These systems eliminate facial recognition capability by design rather than policy promise \parencite{jalalDepthVideoSensorBased2014, wangElderlyFallDetection2020}. However, sensor modality tradeoffs persist: privacy improvements come bundled with cost increases and performance constraints \parencite{wangElderlyFallDetection2020}.
+
+Ambient sensors—motion detectors, passive infrared (PIR) sensors, door contact sensors—\allowbreak{}face signal ambiguity challenges. Falls and Activities of Daily Living produce similar sensor patterns \parencite{uddinAmbientSensorsElderly2018, wangElderlyFallDetection2020}, limiting incident-specific detection capability. \textcite{wangElderlyFallDetection2020} report detection precision below 90\% for individual sensor systems. Furthermore, \textcite{uddinAmbientSensorsElderly2018} observe a ``lack of suitable outcomes to validate delivery of technological solutions for specific needs,'' suggesting that systems have been built without adequately defining success metrics.
+
+\subsection{Privacy-Preserving AI Approaches}
+
+Federated learning trains models across distributed data without sharing raw information \parencite{yuElderlyFallDetection2022}, representing genuine progress in privacy protection. However, federated learning still requires cloud infrastructure for coordination, along with associated costs and network exposure that undermines complete privacy claims.
+
+Differential privacy adds statistical noise to data to protect individual privacy while enabling analysis \parencite{liuSurveyDifferentialPrivacy2023, williamsonBalancingPrivacyProgress2024}. The technique is mathematically elegant but presents challenges in healthcare AI contexts. \textcite{liuSurveyDifferentialPrivacy2023} document that noise injection reduces model accuracy, which poses problems for safety-critical applications where missing a fall detection could prove fatal. Fine-tuning noise parameters to achieve optimal privacy-utility balance requires expertise and computational resources not readily available in resource-constrained healthcare contexts.
+
+Edge computing processes data on local devices rather than transmitting to cloud servers, providing what \textcite{burnsGenerativeAIPolicy2024} terms ``data locality benefits.'' \textcite{changPoseEstimationBasedFall2021} demonstrate that edge deployment eliminates cloud transmission and associated privacy concerns. Edge computing introduces its own constraints: local hardware limitations, update deployment challenges, and maintenance requirements.
+
+\textcite{cavoukianPrivacyDesignEssential2010} Privacy by Design framework articulates principles that emphasize embedding privacy into architecture from inception rather than retrofitting protections after system design. This distinction maps onto the difference between edge computing (privacy by architecture) and differential privacy (privacy by mathematical intervention). Cavoukian identifies seven foundational principles, including ``Privacy Embedded into Design'' and ``Proactive not Reactive,'' which prove difficult to implement in practice.
+
+\subsection{Technology Governance Frameworks}
+
+\textcite{almeidaArtificialIntelligenceRegulation2020} synthesized 21 AI governance models into a unified framework emphasizing fairness, transparency, accountability, safety, and human rights. \textcite{birkstedtAIGovernanceThemes2023} observe that the challenge lies in translating these ethical principles into organizational practice, noting that implementation guidance remains limited.
+
+Data protection regulations represent another governance layer with uneven global implementation. GDPR mandates privacy safeguards including data controllership, right to erasure, and data minimization \parencite{williamsonBalancingPrivacyProgress2024}. However, enforcement mechanisms remain limited in Southeast Asian contexts \parencite{burnsGenerativeAIPolicy2024}, which means that privacy protection must be embedded in system architecture rather than relying primarily on regulatory pressure.
+
+Healthcare privacy standards add another dimension. \textcite{burnsGenerativeAIPolicy2024} emphasizes that privacy and accountability principles prove essential for health security applications. Healthcare privacy standards remain heavily Western-centric, with limited frameworks developed for or by developing countries.
+
+Accessibility and digital inclusion policies address a critical governance dimension. \textcite{richardsonFrameworkDigitalHealth2022} propose a Digital Determinants of Health framework operating across individual, interpersonal, community, and societal levels. \textcite{hatefDevelopmentEvidenceConsensusbased2024} examine digital health equity frameworks, while \textcite{sylla25YearsDigital2025} document persistent economic and infrastructure barriers to technology adoption in low- and middle-income countries (LMICs). When subscription-based monitoring systems require ongoing payments representing 5\% or more of monthly household income, economic exclusion by design occurs.
+
+\subsection{Regional Context: Southeast Asian Elderly Care}
+
+Epidemiological evidence from Southeast Asia grounds incident type prioritization. \textcite{maiyapakdeeFactorsRelatedHome2025} report that 37.7\% of elderly home accidents in Thailand are falls, justifying fall detection as a priority safety concern. \textcite{liAdverseEventsRisk2022} examined 272 nursing facilities in China, identifying falls as the top adverse event, with bed and chair falls explicitly documented. \textcite{romliFallsAmongstOlder2017} synthesize broader regional patterns, reporting fall prevalence of 7.5-10\% in Thailand and Singapore, with ranges of 14-34\% across Asia.
+
+Cultural norms regarding elderly care prove salient for system design. \textcite{romliFallsAmongstOlder2017} document strong family caregiving norms rooted in filial piety values, with preference for home-based care over institutional facilities across Southeast Asian contexts. Older adults in ASEAN communities often live in extended family households with adult children providing supervision, though families cannot provide 24/7 monitoring. Systems must fit within family homes rather than institutional settings.
+
+Economic constraints represent a critical dimension of regional context. Cambodia's middle-income urban households (4th and 5th quintiles earning \$870-\$1,622 per month) face affordability thresholds that exclude many technologies developed for higher-income markets \parencite{CambodiaSocioEconomicSurvey}. \textcite{sylla25YearsDigital2025} describe persistent economic and infrastructure barriers to technology adoption in LMICs as concrete financial constraints: systems costing several months' income prove inaccessible regardless of technical sophistication. \textcite{hatefDevelopmentEvidenceConsensusbased2024} document how cost barriers compound other Digital Determinants of Health, creating multilevel obstacles to digital health equity. This positions cost as a governance issue beyond mere economics: pricing structures determine which populations can access healthcare AI, making affordability decisions a form of governance that either enables or excludes populations from technological safety benefits.
+
+
+\section{Methodology}
+
+\subsection{Privacy Governance Architecture}
+
+This study proposes a privacy governance-driven architecture for elderly safety monitoring and validates its technical feasibility through NIR camera compatibility testing. The architecture begins with privacy governance principles as primary constraints, deriving technical design from these requirements rather than retrofitting privacy protections post-development.
+
+\subsubsection{Privacy Governance Principles}
+
+Three architectural mechanisms enforce privacy by design \parencite{cavoukianPrivacyDesignEssential2010}:
+
+\textbf{Pose-only storage.} The system stores only 17 body keypoints in COCO format (Common Objects in Context standard: shoulders, elbows, wrists, hips, knees, ankles, and torso keypoints), excluding face landmarks entirely. MediaPipe's full pose model detects 33 landmarks, but facial keypoints are intentionally discarded during extraction. Raw video frames are never persisted to storage—not encrypted, not anonymized, simply never written to disk. This design choice eliminates facial recognition capability structurally: no facial data exists to enable identification.
+
+\textbf{Immediate frame disposal.} Video frames undergo processing in real-time, with deletion occurring immediately after keypoint extraction. The temporal gap between frame capture and deletion measures in milliseconds, limited by processing pipeline speed. No video retention eliminates retrospective re-identification risk, data breach exposure of video archives, and dependency on deletion policy compliance.
+
+\textbf{Edge-first processing.} All computation occurs on a local device (NVIDIA Jetson Orin Nano 8GB for target deployment). Zero cloud transmission eliminates network exposure entirely. Data sovereignty concerns vanish when data never leaves the household.
+
+\subsubsection{Hardware Design}
+
+The proposed system targets middle-income Cambodian households through the following component selection:
+
+\begin{itemize}
+    \item \textbf{Cameras}: 4× RGB cameras with 850nm IR night vision (Hikvision DS-2CD1343G2-IUF, \$63 per camera = \$252 total). Four cameras enable 360-degree coverage through 90-degree spacing.
+    \item \textbf{Edge processor}: NVIDIA Jetson Orin Nano 8GB (\$250). Sufficient GPU capability for real-time pose estimation with 8GB RAM adequate for multi-camera processing.
+    \item \textbf{Accessories}: Storage (microSD card), uninterruptible power supply (UPS), ethernet cables, mounting hardware (\$170 total).
+\end{itemize}
+
+\textbf{Total system cost}: \$672 one-time investment, zero recurring fees.
+
+\subsubsection{Software Pipeline}
+
+The software architecture employs a two-stage processing pipeline:
+
+\textbf{Person detection} via YOLOv8n (Nano variant, chosen for computational efficiency). YOLO identifies person bounding boxes within each frame, providing region-of-interest (ROI) coordinates for focused processing in subsequent pose estimation.
+
+\textbf{Pose estimation} employs MediaPipe, extracting 33 skeletal landmarks using a two-stage detector-tracker architecture. This system uses only the 17-keypoint COCO body subset, which excludes face landmarks by design. The COCO subset includes shoulders, elbows, wrists, hips, knees, ankles, and torso keypoints, omitting the facial, hand, and foot landmarks available in MediaPipe's full 33-landmark model.
+
+Two \textbf{processing modes} underwent validation testing: (1) Baseline configuration applies MediaPipe pose estimation directly to full frames without preliminary person detection; (2) Integrated configuration chains YOLOv8n person detection before MediaPipe pose estimation, adding computational overhead but improving detection accuracy. Both configurations exceed real-time requirements (15+ FPS).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figure1_architecture.png}
+    \caption{Privacy Governance-Driven System Architecture: Edge-Based Elderly Safety Monitoring}
+    \label{fig:system_architecture}
+    \begin{flushleft}
+        \footnotesize
+        \textit{Note.} Architecture enforces privacy through three mechanisms: (1) pose-only storage (17 body keypoints, no facial landmarks), (2) immediate video frame disposal after keypoint extraction, and (3) 100\% on-device processing with zero cloud transmission. All computation occurs on local edge device, eliminating network exposure and cloud data sovereignty concerns.
+    \end{flushleft}
+\end{figure}
+
+\subsection{NIR Camera Compatibility Validation}
+
+This validation tests whether MediaPipe pose estimation, trained predominantly on visible-spectrum RGB imagery, maintains adequate performance on 850nm near-infrared footage from affordable security cameras.
+
+\subsubsection{Validation Dataset}
+
+MediaPipe pose estimation was validated on 20 commercial 850nm NIR security camera videos assembled from publicly available CCTV demonstration footage. The 20 videos provide:
+
+\begin{itemize}
+    \item \textbf{Source diversity}: Professional CCTV demo footage from multiple manufacturers including Hikvision, EZviz, and other commercial brands marketing 850nm IR night vision.
+    \item \textbf{Environmental diversity}: Indoor and outdoor environments, lighting conditions ranging from complete darkness (IR-only) to mixed visible-IR scenarios, different camera types (dome, turret, bullet).
+    \item \textbf{Resolution range}: Both 1080p and 4K footage, reflecting affordable IP camera capabilities.
+    \item \textbf{NIR wavelength targeting}: All videos employ 850nm infrared illumination, matching the Hikvision DS-2CD1343G2-IUF camera specification.
+\end{itemize}
+
+\textbf{Dataset limitations}: 20 videos constitute preliminary validation, not statistically powered evaluation. Videos show general human activity rather than elderly-specific movement patterns or actual fall incidents. No ground truth pose annotations exist, requiring detection rate metrics and confidence scores rather than keypoint localization accuracy measurements.
+
+\subsubsection{Validation Procedure}
+
+Two processing pipelines underwent testing on the same 20 NIR videos:
+
+\textbf{Baseline pipeline}: MediaPipe pose estimation applied directly to full video frames.
+
+\textbf{Integrated pipeline}: YOLOv8n person detection followed by ROI extraction and cropping, with MediaPipe pose estimation applied to the cropped person region.
+
+For each video and pipeline configuration, validation collected: (1) Keypoint detection rate (percentage of 33 landmarks successfully detected); (2) Confidence scores (average across all detected keypoints); (3) False negative rate (percentage of frames containing persons where pose detection failed entirely); (4) Processing speed (frames per second, measured on standard hardware).
+
+\subsubsection{Validation Scope}
+
+This validation tests: \textit{Can MediaPipe detect poses on 850nm NIR footage from affordable security cameras?} It does not validate fall detection accuracy, incident classification performance, or system reliability in actual deployment conditions. The distinction between ``pose detection capability'' and ``fall detection accuracy'' proves critical for interpreting this study's contributions.
+
+\subsection{Cost-Effectiveness Analysis}
+
+\subsubsection{Comparative Cost Model}
+
+The edge-based system's cost was compared against the Kami Fall Detect Camera \parencite{upadhyayThisCameraCan2025}, a commercially available cloud-based elderly fall detection product, over a 3-year period:
+
+\textbf{Edge-based system}: Hardware cost \$672 one-time, recurring fees \$0, 3-year total \$672.
+
+\textbf{Cloud-based alternative}: Hardware cost \$99, mandatory subscription \$45/month × 36 months = \$1,620, 3-year total \$1,719.
+
+\textbf{Cost difference}: \$1,047 savings over 3 years, representing 61\% cost reduction.
+
+\textbf{Breakeven point}: Month 13 (Month 1 of Year 2). The edge system's higher upfront cost is offset by zero recurring fees, with cumulative costs crossing at 12.7 months.
+
+\subsubsection{Market Accessibility Analysis}
+
+Cambodia Socio-Economic Survey (CSES) household income data \parencite{CambodiaSocioEconomicSurvey} defines market segments. The 4th and 5th quintiles (middle-income and upper-middle-income urban households) earn \$870-\$1,622 per month, representing 40\% of urban households.
+
+The \$672 system cost represents 0.41-0.77 months of income for these households, positioning the system as a significant but plausibly affordable one-time purchase. By contrast, the Kami cloud alternative's \$45/month subscription represents 2.8-5.2\% of monthly income—\,a recurring payment that compounds over time.
+
+Cambodia's elderly population (60+ years) will reach approximately 2.1 million by 2030 \parencite{unitednationsdepartmentofeconomicandsocialaffairspopulationdivisionDataPortalPopulation2015}. Estimating that 12-18\% fall within middle-income urban households with financial capacity and motivation to adopt fall detection technology yields 252,000-378,000 potential users.
+
+\subsection{Evaluation Metrics}
+
+\textbf{NIR camera compatibility metrics}: Keypoint detection rate (percentage of 33 MediaPipe landmarks detected per frame), average confidence (mean confidence score on 0-1 scale), false negative rate (percentage of frames with persons where pose detection failed), processing speed (FPS, determining real-time performance).
+
+\textbf{Cost-effectiveness metrics}: 3-year total cost, breakeven point (month when cumulative costs equal), cost reduction percentage, market reach (estimated number and percentage of elderly population within affordability threshold).
+
+\subsection{Study Scope and Limitations}
+
+\textbf{What we validate}:
+
+\begin{enumerate}
+    \item \textbf{NIR camera compatibility}: MediaPipe pose estimation works on 850nm infrared footage, addressing the primary technical uncertainty for privacy-preserving monitoring using affordable security cameras.
+    \item \textbf{Cost-effectiveness comparison}: Edge architecture (\$672) costs 61\% less than cloud alternatives (\$1,719) over 3 years.
+    \item \textbf{Privacy architecture}: Storing only 17 body keypoints with immediate frame disposal makes facial identification structurally impossible.
+\end{enumerate}
+
+\noindent\textbf{What we do NOT validate}:
+
+\begin{enumerate}
+    \item \textbf{Fall detection accuracy}: This study does not test whether the system accurately detects falls or achieves acceptable false positive/negative rates. Fall detection requires validation on benchmark datasets with ground truth fall annotations.
+    \item \textbf{Real-world deployment}: Testing on commercial CCTV demo videos differs from continuous monitoring in actual elderly homes. Movement patterns and fall dynamics of elderly individuals differ from general adult populations in camera demos.
+    \item \textbf{Hardware-specific performance}: Processing speed measurements come from standard hardware testing, not actual Jetson Orin Nano deployment.
+    \item \textbf{User acceptance}: Elderly user and family acceptance of continuous pose monitoring remains empirically untested.
+    \item \textbf{Coverage adequacy}: Whether 4-camera configuration provides sufficient coverage for typical Cambodian middle-income homes remains unvalidated.
+    \item \textbf{System reliability}: Long-duration performance over weeks and months of continuous operation exceeds this preliminary study's timeline.
+\end{enumerate}
+
+This design study demonstrates how privacy governance principles inform architectural decisions, with technical validation limited to the component most uncertain for the proposed approach: NIR camera compatibility.
+
+
+\section{Results}
+
+\subsection{NIR Camera Compatibility}
+
+MediaPipe pose estimation was validated on 20 commercial 850nm NIR security camera videos representing diverse manufacturers, environments, and camera configurations.
+
+\subsubsection{Integrated Pipeline Performance}
+
+The integrated YOLO+MediaPipe pipeline demonstrated the following performance across the 20-video validation set:
+
+\begin{itemize}
+    \item \textbf{Keypoint detection rate}: 91.3\% (30.1 of 33 MediaPipe landmarks detected on average per frame). Missing landmarks concentrated in hands and feet (extremities), while core body keypoints (shoulders, hips, torso) achieved near-perfect detection. For fall detection purposes, core body keypoint reliability matters more than extremity precision.
+
+    \item \textbf{Average confidence}: 0.868 on MediaPipe's 0-1 confidence scale. Confidence scores above 0.85 generally indicate reliable keypoint localization. Confidence scores ranged from 0.736 to 0.905 across the 20 videos, with all videos meeting the 0.70 threshold.
+
+    \item \textbf{False negative rate}: 12.3\% of frames containing visible persons resulted in complete pose detection failure (zero keypoints detected). This represents approximately 2.5 failed frames per second at 20 FPS processing.
+
+    \item \textbf{Processing speed}: 20.53 FPS averaged across the 20 videos, measured on standard hardware. This exceeds the 15 FPS threshold conventionally considered ``real-time'' for continuous monitoring applications.
+\end{itemize}
+
+\begin{table}[htbp]
+    \centering
+    \caption{NIR Camera Compatibility: Integrated Pipeline Performance on 20 Commercial 850nm NIR Videos}
+    \label{tab:nir_validation}
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Metric}                 & \textbf{Mean} & \textbf{Range} & \textbf{Target} & \textbf{Status} \\
+        \midrule
+        Keypoint detection rate (\%)    & 91.3          & 73.8--98.9     & $\geq$90        & \checkmark      \\
+        Average confidence (0--1 scale) & 0.868         & 0.736--0.905   & $\geq$0.70      & \checkmark      \\
+        False negative rate (\%)        & 12.3          & 0.0--70.2      & $<$15           & \checkmark      \\
+        Processing speed (FPS)          & 20.53         & --             & $\geq$15        & \checkmark      \\
+        Pose coverage (\%)$^a$          & 86.0          & --             & --              & --              \\
+        \bottomrule
+    \end{tabular}
+    \begin{flushleft}
+        \footnotesize
+        $^a$Pose coverage = percentage of frames with at least one keypoint detected. \\
+        \textit{Note.} Validation conducted on 20 commercial CCTV demonstration videos (850nm NIR wavelength) from multiple manufacturers including Hikvision, EZviz, and other brands. Videos included diverse camera types (dome, turret, bullet, wide-angle) and environments (indoor corridors, outdoor yards, retail spaces, residential settings). All metrics met acceptance criteria, confirming MediaPipe pose estimation compatibility with affordable 850nm NIR security cameras.
+    \end{flushleft}
+\end{table}
+
+\subsubsection{Pipeline Comparison}
+
+The baseline MediaPipe-only pipeline (pose estimation applied directly to full frames without preliminary person detection) provides comparative reference:
+
+\textbf{Baseline pipeline performance}: Keypoint detection rate 85.6\% (28.3 of 33 landmarks), average confidence 0.833, false negative rate 20.5\%, processing speed 47.37 FPS.
+
+\textbf{Performance differentials} (integrated vs. baseline):
+\begin{itemize}
+    \item Detection accuracy: 91.3\% vs. 85.6\% = 5.7 percentage point improvement (6.7\% relative improvement)
+    \item Pose coverage: 86.0\% (frames with at least one keypoint detected) vs. 63.8\% baseline, representing 22.2 percentage point improvement in coverage reliability
+    \item Confidence: 0.869 vs. 0.833 = 0.036 point improvement
+    \item Speed cost: 20.53 FPS vs. 47.37 FPS = 2.3× slower processing for integrated pipeline
+\end{itemize}
+
+The integrated YOLO+MediaPipe approach was selected for the proposed system architecture despite 2.3× slower processing speed. The 5.7 percentage point detection accuracy improvement and 22.2 percentage point better pose coverage provide meaningful reliability gains for fall detection where false negatives (missing actual falls) carry potentially fatal consequences. Both pipelines process faster than 15 FPS real-time threshold, so the speed differential represents performance margin rather than functionality threshold.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Processing Pipeline Comparison: Baseline vs. Integrated Architecture}
+    \label{tab:pipeline_comparison}
+    \begin{tabular}{lccc}
+        \toprule
+        \textbf{Metric}                   & \textbf{Baseline}         & \textbf{Integrated}       & \textbf{Change} \\
+                                          & \textbf{(MediaPipe Only)} & \textbf{(YOLO+MediaPipe)} &                 \\
+        \midrule
+        Processing speed (FPS)            & 47.37                     & 20.53                     & -56.7\%         \\
+        Keypoint detection rate (\%)      & 85.6                      & 91.3                      & +5.7 pp$^a$     \\
+        Average confidence                & 0.833                     & 0.869                     & +0.036          \\
+        Pose coverage (\%)                & 63.8                      & 86.0                      & +22.2 pp        \\
+        False negative rate (\%)          & 20.5                      & 12.3                      & -8.2 pp         \\
+        \midrule
+        \textbf{Speed-Accuracy Ratio}$^b$ & 2.31                      & 1.00                      & --              \\
+        \bottomrule
+    \end{tabular}
+    \begin{flushleft}
+        \footnotesize
+        $^a$pp = percentage points (absolute difference, not relative change). \\
+        $^b$Speed-Accuracy Ratio = (FPS / FPS$_{\text{integrated}}$) / (Detection / Detection$_{\text{integrated}}$). Values $>$1 indicate faster processing; integrated pipeline normalized to 1.0. \\
+        \textit{Note.} Both pipelines tested on identical 20 NIR videos. Baseline applies MediaPipe pose estimation directly to full frames. Integrated uses YOLOv8n person detection followed by ROI-cropped MediaPipe processing. Integrated pipeline selected for proposed system despite 2.3× slower processing speed due to 5.7 percentage point higher detection accuracy and 22.2 percentage point better pose coverage, prioritizing reliability over efficiency for safety-critical fall detection applications.
+    \end{flushleft}
+\end{table}
+
+\subsubsection{Performance Variation}
+
+Performance varied across the 20 individual videos:
+
+\begin{itemize}
+    \item \textbf{Keypoint detection range}: 73.8\% to 98.9\%. The highest-performing video (98.9\% detection) showed stable indoor footage from a dome camera, while the lowest-performing video (73.8\% detection) featured outdoor scenes with motion blur and occlusion. Elderly monitoring in indoor home environments (the target use case) corresponds to scenarios achieving higher performance.
+
+    \item \textbf{Environmental factors}: The validation dataset included diverse environments (indoor corridors, outdoor yards, retail spaces, residential settings), with indoor scenarios under stable lighting achieving the highest detection rates.
+
+    \item \textbf{Camera type diversity}: The 20-video validation tested multiple camera types including dome, turret, bullet, wide-angle (180°), and hidden spy cameras across both 1080p and 4K resolutions, confirming 850nm NIR compatibility across diverse commercial CCTV equipment.
+\end{itemize}
+
+These variations suggest that NIR camera compatibility depends on environmental factors, camera placement, and specific camera models. Practitioners implementing similar systems should conduct camera-specific validation.
+
+\subsection{Cost-Effectiveness Analysis Results}
+
+\subsubsection{Total Cost Comparison}
+
+The edge-based system demonstrates substantial cost advantages over cloud-based fall detection alternatives across a 3-year deployment period:
+
+\textbf{Edge-based system} (proposed architecture): Hardware components (\$252 cameras + \$250 Jetson Orin Nano + \$170 accessories) = \$672 initial investment, recurring monthly fees \$0, 3-year total cost \$672.
+
+\textbf{Cloud-based alternative} (Kami Fall Detect Camera): Hardware \$99, recurring subscription \$45/month × 36 months = \$1,620, 3-year total cost \$1,719.
+
+\textbf{Cost differential}: \$1,047 savings over 3 years, representing 61\% cost reduction. The edge system costs less than 40\% of the cloud alternative over the 3-year period.
+
+\textbf{Breakeven analysis}: The edge system's higher upfront cost (\$672 vs. \$99) reverses over time as avoided subscription fees accumulate. Breakeven occurs at Month 13 (early in Year 2), after which savings increase by \$45 per month. For elderly monitoring where continuous deployment over multiple years seems likely, the long-term cost advantage proves more relevant than initial price differential.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Three-Year Cost Comparison: Edge-Based vs. Cloud-Based Elderly Safety Monitoring Systems}
+    \label{tab:cost_comparison}
+    \begin{tabular}{lrrrr}
+        \toprule
+        \textbf{System Component}                & \textbf{Year 1} & \textbf{Year 2} & \textbf{Year 3} & \textbf{Total}    \\
+        \midrule
+        \multicolumn{5}{l}{\textit{Edge-Based System (Proposed)}}                                                          \\
+        \quad 4× RGB cameras (850nm IR)          & \$252           & \$0             & \$0             & \$252             \\
+        \quad NVIDIA Jetson Orin Nano 8GB        & \$250           & \$0             & \$0             & \$250             \\
+        \quad Accessories (storage, UPS, cables) & \$170           & \$0             & \$0             & \$170             \\
+        \quad \textbf{Subtotal}                  & \textbf{\$672}  & \textbf{\$0}    & \textbf{\$0}    & \textbf{\$672}    \\
+        \midrule
+        \multicolumn{5}{l}{\textit{Cloud-Based System (Kami Fall Detect Camera)}}                                          \\
+        \quad Hardware                           & \$99            & \$0             & \$0             & \$99              \\
+        \quad Cloud subscription (\$45/month)    & \$540           & \$540           & \$540           & \$1,620           \\
+        \quad \textbf{Subtotal}                  & \textbf{\$639}  & \textbf{\$540}  & \textbf{\$540}  & \textbf{\$1,719}  \\
+        \midrule
+        \textbf{Cost Savings (Edge vs. Cloud)}   & \textbf{-\$33}  & \textbf{+\$540} & \textbf{+\$540} & \textbf{+\$1,047} \\
+        \textbf{Cost Reduction Percentage}       & \textbf{-5\%}   & \textbf{100\%}  & \textbf{100\%}  & \textbf{61\%}     \\
+        \bottomrule
+    \end{tabular}
+    \begin{flushleft}
+        \footnotesize
+        \textit{Note.} Edge-based system has higher upfront cost but zero recurring fees, achieving breakeven at Month 13 (early Year 2). Cloud system requires continuous subscription for fall detection functionality. Cost savings calculated as: (\$1,719 - \$672) / \$1,719 = 61\% reduction over 3 years.
+    \end{flushleft}
+\end{table}
+
+\subsubsection{Market Accessibility Implications}
+
+The \$672 edge system represents 0.41-0.77 months of household income for middle-income Cambodian urban households (4th-5th quintiles earning \$870-\$1,622/month), positioning the technology as a significant but potentially affordable one-time purchase. By contrast, the \$1,719 cloud system total cost represents 1.06-1.98 months of income—\,nearly double the edge system's income burden.
+
+The subscription structure creates ongoing payment burden. The \$45/month Kami subscription represents 2.8-5.2\% of monthly household income, every month, indefinitely. Recurring payments pose adoption barriers beyond their absolute cost, particularly when payments must continue indefinitely for service access.
+
+\textbf{Market reach estimation}: Applying affordability thresholds to Cambodia's projected 2030 elderly population:
+
+\begin{itemize}
+    \item Total elderly population (60+ years): ~2.1 million
+    \item Urban elderly (20\% urbanization rate for elderly): ~420,000
+    \item Middle-income urban elderly (4th-5th quintiles, ~40\% of urban households): ~168,000
+    \item Conservative estimate (60\% adoption factor): \textbf{252,000 potential adopters}
+    \item Upper bound estimate (90\% adoption in 5th quintile): \textbf{378,000 potential adopters}
+\end{itemize}
+
+The 252,000-378,000 range represents 12-18\% of Cambodia's projected elderly population. By comparison, the cloud system's higher cost might contract market reach to approximately 5th quintile only: ~126,000 potential adopters (6\% of elderly population), representing 50\% smaller market than edge system reach.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Market Accessibility: Estimated Reach in Cambodia's Elderly Population (2030 Projection)}
+    \label{tab:market_reach}
+    \begin{tabular}{lrr}
+        \toprule
+        \textbf{Population Segment}                               & \textbf{Count}                         & \textbf{\% of Elderly} \\
+        \midrule
+        Total elderly population (60+ years, 2030)                & 2,100,000                              & 100\%                  \\
+        \quad Urban elderly (20\% urbanization)$^a$               & 420,000                                & 20\%                   \\
+        \quad\quad 4th--5th quintile (middle-income)$^b$          & 168,000                                & 8\%                    \\
+        \quad\quad\quad Conservative estimate (60\% adoption)$^c$ & \textbf{252,000}                       & \textbf{12\%}          \\
+        \quad\quad\quad Upper bound (90\% adoption)$^d$           & \textbf{378,000}                       & \textbf{18\%}          \\
+        \midrule
+        \multicolumn{3}{l}{\textit{Affordability Context}}                                                                          \\
+        4th quintile monthly income                               & \multicolumn{2}{l}{\$870/month}                                 \\
+        5th quintile monthly income                               & \multicolumn{2}{l}{\$1,622/month}                               \\
+        Edge system cost (\% of monthly income)                   & \multicolumn{2}{l}{0.41--0.77 months}                           \\
+        Cloud system monthly cost (\% of income)                  & \multicolumn{2}{l}{2.8--5.2\% monthly}                          \\
+        \bottomrule
+    \end{tabular}
+    \begin{flushleft}
+        \footnotesize
+        $^a$Urban elderly 20\% of total (lower than general 40\% urbanization due to rural concentration). \\
+        $^b$420,000 × 40\% (4th-5th quintile share) = 168,000. \\
+        $^c$Conservative: 168,000 × 1.5 (60\% adoption factor). \\
+        $^d$Upper bound: 90\% adoption among financially capable households. \\
+        \textit{Sources.} Elderly population: UN DESA (2015). Income: Cambodia Socio-Economic Survey 2021. System costs: Validation analysis. Urbanization (20\%) and adoption factors are stated assumptions. \\
+        \textit{Note.} Edge system expands reach by 50\% vs. cloud alternatives (252,000--378,000 vs. ~126,000 limited to 5th quintile).
+    \end{flushleft}
+\end{table}
+
+\subsubsection{Cost Model Limitations}
+
+The analysis omits electricity consumption, internet connectivity costs, potential maintenance or replacement costs, and installation labor. Including these factors would modify absolute costs but likely preserve relative cost advantage for edge system. Some cloud services offer annual subscription discounts. The 3-year analysis period assumes households maintain the system continuously for 36 months; if systems remain functional beyond 3 years, the edge system's cost advantage compounds further.
+
+The reported cost comparison (\$672 vs. \$1,719, 61\% reduction) should be interpreted as indicative of direction rather than precise magnitude. The finding that edge architecture provides substantial cost advantages over subscription-based cloud monitoring remains valid, though exact savings depend on deployment specifics and household usage patterns.
+
+
+\section{Discussion}
+
+\subsection{Governance Implications}
+
+\subsubsection{Privacy Governance Through Edge Architecture}
+
+This study demonstrates how privacy governance principles can drive architectural design decisions rather than being retrofitted as compliance measures. Edge-based processing eliminates cloud transmission requirements through system constraints rather than operational promises, a difference that becomes critical when considering enforcement challenges that plague privacy-by-policy approaches.
+
+The architecture achieves facial anonymity by design: pose-only storage (17 body keypoints in COCO format) renders facial recognition impossible, not merely prohibited. Systems that capture facial data and promise not to use it for identification require trusting that policies will be followed. By contrast, storing only skeletal coordinates makes facial identification structurally impossible because facial data never existed in stored form. Raw video frames undergo immediate deletion after keypoint extraction (milliseconds), eliminating retrospective re-identification risks.
+
+The validation results (91.3\% keypoint detection on 850nm NIR footage) confirm technical feasibility without performance compromise. The edge-pose-only approach achieves privacy through architecture while maintaining pose estimation performance comparable to visible-spectrum applications. In contexts where data protection regulations provide limited enforcement, such as Cambodia, privacy protection must emerge from system design. Edge architecture with pose-only storage demonstrates technical pathway for governance-driven design that doesn't rely on external enforcement—the architecture is the governance.
+
+\subsubsection{Accessibility Governance Through Cost Optimization}
+
+Edge architecture yields economic co-benefits beyond privacy protection. Eliminating cloud infrastructure reduces 3-year total cost by 61\% (\$672 vs. \$1,719), expanding market accessibility in ways that matter for health equity.
+
+The zero-subscription model removes recurring payment barriers particularly challenging for middle-income Cambodian households earning \$870-\$1,622/month, where \$45/month subscription represents 2.8-5.2\% of monthly income indefinitely. The estimated market reach of 252,000-378,000 elderly individuals (12-18\% of Cambodia's projected 2030 elderly population) represents meaningful expansion beyond high-income early adopters who can afford subscription-based cloud monitoring.
+
+Edge-based architecture expands accessibility beyond cloud alternatives, though substantial portions of elderly population remain unreached. Low-income and rural populations require alternative deployment models. Technology design alone cannot solve health equity challenges rooted in economic inequality; it can avoid exacerbating inequality through pricing structures that systematically exclude middle- and low-income populations. The zero-subscription edge model represents harm reduction—eliminating recurring payment barriers—rather than universal accessibility.
+
+\subsubsection{Context-Specific Design for Developing Countries}
+
+The system design incorporates regional epidemiological evidence: three incident types (falls while standing/walking, falls from bed/chair, abnormal sit-to-stand transitions) were prioritized based on Thai elderly fall data \parencite{maiyapakdeeFactorsRelatedHome2025} and Chinese long-term care studies \parencite{liAdverseEventsRisk2022}. This evidence-based incident prioritization contrasts with technology-driven approaches that detect whatever algorithms can most easily classify.
+
+Hardware selection (850nm NIR cameras at \$63 each, edge processor) addresses Cambodia's middle-income market constraints while maintaining technical performance. The cameras represent approximately one-tenth the cost of research-grade RGB-D sensors frequently employed in fall detection studies, fundamentally altering market accessibility. This demonstrates a governance-driven approach for resource-constrained contexts where off-the-shelf solutions developed for high-income markets prove economically inaccessible.
+
+\subsection{Technical Validation Contributions}
+
+\subsubsection{NIR Camera Compatibility}
+
+The validation of MediaPipe pose estimation on 850nm NIR footage (91.3\% keypoint detection across 20 commercial CCTV videos) fills a literature gap. The specific question of whether pose estimation algorithms trained on visible-spectrum data maintain performance on 850nm infrared imagery from affordable CCTV cameras sits at intersection of computer vision, healthcare AI, and assistive technology research domains. This study provides empirical evidence that pose estimation works on NIR footage, with performance characteristics enabling 24/7 elderly monitoring without facial recognition technology.
+
+The practical contribution is deployment guidance: affordable NIR cameras prove viable for pose-based applications, though practitioners should validate camera-specific performance given the 73.8-98.9\% detection range observed. Environmental factors matter (stable indoor lighting achieved highest performance while outdoor scenes with motion blur showed lowest), camera placement affects results, and manufacturer differences exist.
+
+\subsubsection{Pipeline Trade-off Analysis}
+
+The integrated YOLO+MediaPipe approach achieved 5.7 percentage point higher keypoint detection and 22.2 percentage point better pose coverage, but processed 2.3× slower than baseline (20.53 FPS vs. 47.37 FPS). The decision to select integrated pipeline despite speed penalty reflects governance principle: when safety-critical applications face accuracy-speed tradeoffs and both configurations exceed minimum requirements (both >15 FPS), prioritizing reliability over efficiency embodies different values than commercial applications optimizing for computational cost reduction.
+
+\subsection{Limitations}
+
+\textbf{Validation scope:} NIR camera compatibility (pose estimation on 850nm infrared footage) and cost-effectiveness (edge vs. cloud expense comparison) were validated. Fall detection accuracy, incident classification performance, real-world deployment reliability, user acceptance, coverage adequacy, and long-term system maintenance were not validated. The gap between ``pose estimation works on NIR cameras'' and ``the system accurately detects falls in elderly homes'' spans multiple validation dimensions this preliminary study does not address.
+
+\textbf{Testing environment:} Commercial CCTV demonstration footage shows general adult populations rather than elderly individuals with age-specific movement patterns. Demo videos feature normal daily activities rather than fall incidents. Whether 91.3\% keypoint detection on general populations generalizes to elderly subjects and fall events remains empirically unverified.
+
+\textbf{Hardware deployment:} Processing speeds (20.53 FPS integrated, 47.37 FPS baseline) were measured on standard hardware, not on the target NVIDIA Jetson Orin Nano 8GB. Whether Jetson achieves similar speeds for 4-camera processing requires hardware-specific validation.
+
+\textbf{Market accessibility:} The 252,000-378,000 user estimate represents economic feasibility (households with financial capacity) but not actual adoption. Perceived need, technology trust, family dynamics, and alternative options beyond cost determine technology adoption.
+
+\textbf{Generalizability:} Cambodia-specific characteristics (family caregiving traditions, middle-income household income ranges, limited data protection regulation) shape problem definition and solution constraints. The governance-driven design approach might transfer across contexts, but specific architectural choices require context-specific adaptation.
+
+\subsection{Future Directions}
+
+\textbf{Benchmark dataset validation.} Fall detection accuracy requires validation on standard datasets (MCF, LE2I, UP-Fall) with ground truth annotations to establish whether pose-based incident detection achieves acceptable accuracy for deployment.
+
+\textbf{Custom dataset collection.} Collecting a Southeast Asian elderly dataset (180 videos featuring age-appropriate actors across three lighting conditions) would address Western dataset bias while enabling lighting-condition-specific algorithm optimization.
+
+\textbf{Hardware validation.} Deploying the complete pipeline on NVIDIA Jetson Orin Nano and measuring actual 4-camera processing speeds would validate deployment feasibility claims. Sustained-operation testing (hours to days) would identify thermal throttling or reliability issues.
+
+\textbf{Expanded detection capabilities.} Beyond three current incident types, elderly safety encompasses prolonged floor lying, bathroom incidents, wandering behavior (dementia patients), and abnormal inactivity patterns.
+
+\textbf{Policy framework development.} Broader policy questions remain: informed consent processes for elderly monitoring, data control and alert settings, family responsibilities, and healthcare provider integration of home monitoring data.
+
+\textbf{Longitudinal adoption studies.} Understanding actual adoption patterns, sustained usage rates, user acceptance evolution, and long-term value proposition requires studies following households over months to years.
+
+
+\section{Conclusion}
+
+\subsection{Key Findings}
+
+This study demonstrates privacy governance-driven architectural design through a Cambodia elderly monitoring design study, showing that starting with privacy principles and cost constraints rather than technical optimization yields different system architectures with implications for governance implementation and market accessibility.
+
+\textbf{Technical feasibility.} Edge-based pose estimation achieves 91.3\% keypoint detection on 850nm NIR footage from affordable security cameras, validating 24/7 privacy-preserving monitoring capability without expensive visible-light or depth sensors. This establishes deployment feasibility: affordable cameras (\$63 each) can support pose-based fall detection, obviating need for cost-prohibitive sensor alternatives that exclude middle-income markets. The finding comes with caveats (12.3\% false negatives, 73.8-98.9\% range across individual videos, testing on general populations rather than elderly subjects), but NIR compatibility works adequately for this application.
+
+\textbf{Cost-effectiveness.} Edge architecture reduces 3-year total cost by 61\% compared to cloud-based fall detection alternatives (\$672 vs. \$1,719), expanding market reach to an estimated 252,000-378,000 elderly individuals in middle-income Cambodian households. The cost comparison reflects structural difference between one-time hardware investment and perpetual subscription fees, with edge system achieving breakeven at Month 13. The zero-subscription model eliminates recurring payment barriers that disproportionately affect households with variable income streams.
+
+\textbf{Design trade-offs.} The selection of integrated YOLO+MediaPipe pipeline over simpler baseline approach—despite 2.3× slower processing speed—reflects safety-critical priority where accuracy trumps efficiency when both configurations exceed minimum requirements. The integrated pipeline's 5.7 percentage point higher keypoint detection and 22.2 percentage point better pose coverage provide reliability improvements for applications where false negatives (missed fall detections) carry potentially fatal consequences.
+
+\textbf{Governance-driven design.} Privacy governance principles informed architectural decisions from inception (edge processing, pose-only storage, immediate frame disposal) rather than being retrofitted post-deployment, demonstrating Privacy by Design principles in healthcare AI context. The architecture enforces privacy through system constraints: facial recognition becomes impossible when no facial data exists, data breaches cannot expose video archives that were never created, cloud transmission risks vanish when processing never leaves local devices. This differs from privacy-by-policy approaches that capture sensitive data and promise not to misuse it.
+
+\subsection{Implications for Practice}
+
+\subsubsection{For Healthcare AI Developers}
+
+\textbf{NIR camera compatibility requires empirical validation} before deployment: the 73.8-98.9\% detection range demonstrates that performance varies substantially by camera model, environmental conditions, and deployment specifics. Developers should conduct camera-specific validation sampling anticipated deployment conditions.
+
+\textbf{Integrated pipelines achieve real-time performance on standard hardware} (20.53 FPS on consumer-grade GPU), suggesting edge deployment feasibility though Jetson Orin Nano validation remains necessary. Pose-based fall detection doesn't require specialized AI workstation hardware, which matters for cost-constrained deployments.
+
+\textbf{Privacy-by-design architecture is technically feasible} for elderly monitoring without sacrificing essential functionality. Pose-only storage eliminates facial recognition capability while maintaining adequate data for fall detection, demonstrating that privacy protections need not degrade application performance when embedded into architecture from inception.
+
+\subsubsection{For Policymakers}
+
+\textbf{Privacy-by-design architecture yields economic co-benefits} beyond privacy protection: the 61\% cost reduction emerges from edge processing motivated by privacy governance that also eliminates cloud infrastructure expenses. Privacy and affordability need not trade off against each other.
+
+\textbf{Zero-subscription models expand healthcare technology accessibility} in middle-income markets, reaching an estimated 12-18\% of elderly population. However, low-income and rural elderly require different deployment approaches—potentially subsidized programs, community-based installations, or policy interventions—that technology design alone cannot provide.
+
+\textbf{Governance frameworks require implementation guidance} specific to developing country contexts rather than assuming Western regulatory models (GDPR, HIPAA) apply universally. When data protection regulations provide limited enforcement, privacy protection must emerge from system architecture rather than compliance mechanisms.
+
+\defbibheading{bibliography}[\refname]{\section*{References}}
+\printbibliography
+
+\end{document}

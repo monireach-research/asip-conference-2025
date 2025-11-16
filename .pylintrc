@@ -1,0 +1,13 @@
+[MASTER]
+extension-pkg-allow-list=cv2
+
+[TYPECHECK]
+# Whitelist specific members we actually use - Pylint will still catch typos!
+# Add new members here as you use them in your code
+generated-members=cv2.VideoCapture,
+                  cv2.CAP_PROP_FRAME_COUNT,
+                  cv2.CAP_PROP_FPS,
+                  cv2.COLOR_BGR2RGB,
+                  cv2.cvtColor,
+                  cv2.imread,
+                  cv2.imwrite
