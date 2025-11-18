@@ -1,46 +1,59 @@
 \documentclass[12pt,a4paper]{article}
 
-% Packages for formatting
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{times}  % Times New Roman font
-\usepackage{setspace}
-\singlespacing  % Single spacing as per guidelines
-% \doublespacing  % Double spacing for printout review
+% ========================================
+% PACKAGE LOADING (Order matters!)
+% ========================================
 
-% Page margins
-\usepackage[margin=1in]{geometry}
-% \usepackage[margin=1.2cm]{geometry}  % for printout preview only
+% 1. Document encoding (must be first)
+\usepackage[utf8]{inputenc}          % UTF-8 character encoding
+\usepackage[T1]{fontenc}             % Font encoding for better hyphenation and accents
 
-% APA 7 citation style
-\usepackage{csquotes}
-\usepackage[style=apa,backend=biber]{biblatex}
+% 2. Math packages (must come before font packages)
+\usepackage{amsmath}                 % Advanced math equations and environments
+\usepackage{amssymb}                 % Additional math symbols
+
+% 3. Font packages (Times New Roman)
+\usepackage{newtxtext,newtxmath}     % Modern Times font for text and math
+                                     % NOTE: Must be loaded AFTER amsmath/amssymb
+
+% 4. Page layout
+\usepackage[margin=1in]{geometry}    % Set page margins to 1 inch
+% \usepackage[margin=1.2cm]{geometry} % Alternative: tight margins for printout preview
+\usepackage{setspace}                % Control line spacing
+\singlespacing                       % Single spacing as per guidelines
+% \doublespacing                      % Alternative: double spacing for review
+
+% 5. Typography improvements
+% (microtype not loaded in paper, but would improve text rendering if added)
+
+% 6. Citations and bibliography (APA 7th edition)
+\usepackage{csquotes}                % Context-sensitive quotation marks
+\usepackage[style=apa,backend=biber]{biblatex} % APA citation style
 \addbibresource{/Users/monireach/Library/CloudStorage/GoogleDrive-sebastian.tang168@gmail.com/My Drive/education/live_zotero_references_my_library.bib}
 
-% For tables and figures (APA format)
-\usepackage{booktabs}
-\usepackage{graphicx}
-\usepackage{caption}
+% 7. Tables and figures
+\usepackage{booktabs}                % Professional-quality tables (\toprule, \midrule, \bottomrule)
+\usepackage{graphicx}                % Include images (PNG, JPG, PDF)
+\usepackage{caption}                 % Customize figure and table captions
 
-% Reduce page number size
-\usepackage{fancyhdr}
-\pagestyle{plain}
-\fancyhf{}
-\fancyfoot[C]{\small\thepage}
+% 8. Headers and footers
+\usepackage{fancyhdr}                % Customize headers/footers
+\pagestyle{plain}                    % Simple page style (page number centered at bottom)
+\fancyhf{}                           % Clear default header/footer
+\fancyfoot[C]{\small\thepage}        % Center page number in footer (small size)
 
-% Hyperlinks (optional, for PDF)
-\usepackage{hyperref}
+% 9. Hyperlinks (should be last or near-last)
+\usepackage{hyperref}                % Clickable links, citations, and URLs
 \hypersetup{
-    colorlinks=true,
-    linkcolor=black,
-    filecolor=magenta,
-    urlcolor=blue,
-    citecolor=black,
-    pdfpagemode=FullScreen,
+    colorlinks=true,                 % Enable colored links
+    linkcolor=black,                 % Internal links (sections, figures) in black
+    filecolor=magenta,               % File links in magenta
+    urlcolor=blue,                   % URL/email links in blue
+    citecolor=black,                 % Citation links in black
+    pdfpagemode=FullScreen,          % PDF opens in fullscreen mode
 }
 
-\usepackage{amsmath}
-\usepackage{amssymb}
+
 
 % % Make Abstract heading match section size and left-aligned
 % \renewcommand{\abstractname}{\normalfont\Large\bfseries Abstract}
@@ -49,7 +62,7 @@
 %  {\par}
 
 % Title and author information
-\title{Privacy Governance-Driven Design of AI-Powered Elderly Safety Monitoring for Cambodia}
+\title{\fontsize{16}{19}\selectfont\bfseries Privacy Governance-Driven Design of AI-Powered Elderly Safety Monitoring for Cambodia}
 
 \author{
     \normalsize
@@ -57,7 +70,7 @@
     \normalsize
     Graduate School, Cambodia University of Technology and Science \\[0pt]
     \normalsize
-    \url{monireach.tang@camtech.edu.kh}\\[12pt]
+    \texttt{monireach.tang@camtech.edu.kh}\\[12pt]
     \normalsize
     \textbf{Seingheng Hul}\textsuperscript{1,2} \\[0pt]
     \normalsize
@@ -65,13 +78,13 @@
     \normalsize
     \textsuperscript{2}Graduate School, Cambodia University of Technology and Science \\[0pt]
     \normalsize
-    \url{hul.seingheng@misti.gov.kh}\\[12pt]
+    \texttt{hul.seingheng@misti.gov.kh}\\[12pt]
     \normalsize
     \textbf{May Thu} \\[0pt]
     \normalsize
     Graduate School, Cambodia University of Technology and Science \\[0pt]
     \normalsize
-    \url{may.thu@camtech.edu.kh}
+    \texttt{may.thu@camtech.edu.kh}
 }
 
 \date{} % No date per conference style, standard for conference papers

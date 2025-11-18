@@ -1,4 +1,5 @@
 # Conversation: Abstract Writing Breakthrough
+
 **Date**: October 27, 2025
 **Topic**: Overcoming vocabulary anxiety and understanding governance concepts
 **Status**: In Progress - Paused at Background section review
@@ -7,20 +8,21 @@
 
 ## Session Summary
 
-**Key Breakthrough**: Sebastian successfully articulated all 5 core concepts of the research in his own words, demonstrating solid understanding of both technical and governance aspects. Language polish needed, but conceptual understanding is strong.
+**Key Breakthrough**: Monireach successfully articulated all 5 core concepts of the research in his own words, demonstrating solid understanding of both technical and governance aspects. Language polish needed, but conceptual understanding is strong.
 
 **Progress**:
+
 - ✅ Identified root anxiety: "What is governance?" + vocabulary gaps
-- ✅ Provided concrete definition of governance with examples from Sebastian's research
-- ✅ Sebastian answered 5 core concept questions in his own English
-- ✅ Demonstrated side-by-side comparison (Sebastian's words → Academic English)
-- ⏸️ Currently drafting Background section (2 options provided, awaiting Sebastian's feedback)
+- ✅ Provided concrete definition of governance with examples from Monireach's research
+- ✅ Monireach answered 5 core concept questions in his own English
+- ✅ Demonstrated side-by-side comparison (Monireach's words → Academic English)
+- ⏸️ Currently drafting Background section (2 options provided, awaiting Monireach's feedback)
 
 ---
 
 ## Full Conversation Transcript
 
-### Sebastian's Initial Request
+### Monireach's Initial Request
 
 "I need to write the abstract and submit asap!
 
@@ -29,6 +31,7 @@ I have learned the components of an Abstract: Background, Purpose, Method, Resul
 I am struggling to write it now, and I strongly believe it's because I don't have enough vocabularies in my brain.
 
 I review your abstract draft in @current_state/abstract.md. in the background section alone, there are already a lot of words new to me or I rarely use:
+
 - AI-Powered
 - Healthcare Applications
 - Vulnerable populations
@@ -45,9 +48,9 @@ I review your abstract draft in @current_state/abstract.md. in the background se
 
 It sounds funny and tedious for you, doesn't it?
 
-To learn more about me, check out `Understanding My Brain` section in /Users/sebastian/Library/CloudStorage/GoogleDrive-sebastian.tang168@gmail.com/My Drive/monireach/CLAUDE.md.
+To learn more about me, check out `Understanding My Brain` section in /Users/monireach/Library/CloudStorage/GoogleDrive-sebastian.tang168@gmail.com/My Drive/monireach/CLAUDE.md.
 
-I have created a handwriting practice system: `/Users/sebastian/Library/CloudStorage/GoogleDrive-sebastian.tang168@gmail.com/My Drive/monireach/resources/handwriting_practice_system.md`, but I know it won't help much because the deadline is too close! I have to send out to my supervisor and some lecturers to screen the Abstract first before the submission!
+I have created a handwriting practice system: `/Users/monireach/Library/CloudStorage/GoogleDrive-sebastian.tang168@gmail.com/My Drive/monireach/resources/handwriting_practice_system.md`, but I know it won't help much because the deadline is too close! I have to send out to my supervisor and some lecturers to screen the Abstract first before the submission!
 
 Dealing with a person like me, how can you suggest? I feel like writing the paper (or even the abstract) and presenting it to the public is an impossible thing for me to do now!"
 
@@ -70,6 +73,7 @@ Okay, I understand your brain much better now. Let me give you a practical path 
 **Step 1: Create Your "Concrete Translation" Version**
 
 I'll help you create a side-by-side document:
+
 - **Left column**: Current abstract (fancy words)
 - **Right column**: YOUR words (simple, concrete explanation)
 
@@ -78,6 +82,7 @@ This gives you a concrete anchor to remember the ideas. When someone asks "What'
 **Step 2: Focus on 5 Core Concepts Only**
 
 You don't need to learn 13+ new phrases right now. You need to master **5 key ideas**:
+
 1. What problem are you solving? (elderly safety monitoring)
 2. Why is privacy important? (continuous observation = surveillance risk)
 3. How does edge computing solve this? (processing stays on device, not cloud)
@@ -87,10 +92,12 @@ You don't need to learn 13+ new phrases right now. You need to master **5 key id
 **Step 3: "Good Enough to Ship" = This Week**
 
 **By tomorrow**:
+
 - Send current abstract to supervisor with note: "Draft for your review - please suggest language improvements"
 - You're not claiming it's perfect. You're asking for help.
 
 **This week**:
+
 - After supervisor feedback, we'll refine based on their suggestions
 - You'll learn the vocabulary THROUGH their feedback (concrete examples of what to change)
 
@@ -110,15 +117,16 @@ Remember: **Presenting ≠ memorizing**. You have "permission to read" from your
 
 ---
 
-### Sebastian's Response
+### Monireach's Response
 
 "This is thorough, but I feel you may overrate me.
 I will take notes on your Step 2: Focus on 5 Core Concepts Only. I will write them out in my broken English, trying to elaborate as much as I can.
 
 However, there are some questions I keep having in my mind! I believe this is the reason why I struggle and cannot get started:
+
 1. This research is not technical-based! It's about governance!
 2. My brain keeps asking myself: Is my research relevant? In the previous session, you told me frankly and I had been overthinking too much! My topic is very relevant! OK, I agree now.
-3. But what the h*** is Governance? Why is it important? I don't know a thing about it! It's tedious to read papers about governance now!
+3. But what the h\*\*\* is Governance? Why is it important? I don't know a thing about it! It's tedious to read papers about governance now!
 
 My brain keeps thinking I don't have enough information, I don't have vocabularies, etc. But I cannot overcome this way of thinking at all!
 
@@ -130,7 +138,7 @@ I can start writing now, but I need to be frank with you, I will defintely freez
 
 **STOP. Let me give you the concrete anchor you need.**
 
-#### What the H*** is Governance? (Concrete Definition)
+#### What the H\*\*\* is Governance? (Concrete Definition)
 
 **Governance = Who gets to make decisions + What rules protect people**
 
@@ -141,10 +149,12 @@ That's it. In your research:
 **Question**: Should elderly monitoring video go to the cloud?
 
 **Without governance thinking**:
+
 - "Cloud is easier to code, let's do that"
 - Result: Someone in a server room can watch grandma sleeping
 
 **With governance thinking**:
+
 - "Wait - who can access this video? Can the cloud company see it? What if they get hacked?"
 - Design decision: **NO cloud. Everything stays on the device.**
 
@@ -166,6 +176,7 @@ See? You've been doing governance all along. The conference just wants you to wr
 **Because technology CAN hurt people if we design it wrong.**
 
 Example:
+
 - Cloud camera watches grandma 24/7 → Video leaks online → Family humiliated
 - Your edge device watches grandma 24/7 → Video never leaves the room → Family safe
 
@@ -173,11 +184,11 @@ Same technology. Different design. Governance = choosing the safe design.
 
 #### Your Brain Is Lying to You
 
-Your brain says: *"I don't have enough information"*
+Your brain says: _"I don't have enough information"_
 
 **The truth**: You have EXACTLY enough information. You already made governance decisions. You just need to write down WHY you made them.
 
-Your brain says: *"I need more vocabulary"*
+Your brain says: _"I need more vocabulary"_
 
 **The truth**: Write in broken English first. We'll fix words later. The IDEAS matter, not the fancy words.
 
@@ -186,19 +197,19 @@ Your brain says: *"I need more vocabulary"*
 Copy these and fill in the blanks. **Don't think. Just fill.**
 
 **1. What problem are you solving?**
-"Elderly people fall down at home. Cameras can watch them, but cloud cameras are _____ (bad word?) because _____."
+"Elderly people fall down at home. Cameras can watch them, but cloud cameras are **\_** (bad word?) because **\_**."
 
 **2. Why is privacy important?**
-"Old people sleep, shower, use toilet at home. If video goes to cloud, _____ can see them. This is _____ (shameful? disrespectful?)."
+"Old people sleep, shower, use toilet at home. If video goes to cloud, **\_** can see them. This is **\_** (shameful? disrespectful?)."
 
 **3. How does edge computing solve this?**
-"Edge computing means _____. Video stays _____. Nobody can _____ because _____."
+"Edge computing means **\_**. Video stays **\_**. Nobody can **\_** because **\_**."
 
 **4. What's the technical approach?**
-"Camera sees person → Computer makes stick figure → Delete video → Keep only _____. We cannot see _____ anymore."
+"Camera sees person → Computer makes stick figure → Delete video → Keep only **\_**. We cannot see **\_** anymore."
 
 **5. What's the contribution?**
-"I show that if you think about _____ (privacy? protecting people?) FIRST, you design the technology _____. Not after."
+"I show that if you think about **\_** (privacy? protecting people?) FIRST, you design the technology **\_**. Not after."
 
 #### What You Should Do RIGHT NOW
 
@@ -212,9 +223,10 @@ Can you do that?
 
 ---
 
-### Sebastian's Answers (BREAKTHROUGH MOMENT)
+### Monireach's Answers (BREAKTHROUGH MOMENT)
 
 "Here are my answers:
+
 1. Elderly people fall down at home. Cameras can watch them, but cloud cameras are intruding their privacy because the video footage data is transmitted to the cloud, accessible by anyone managing the server.
 2. Old people sleep, shower, use toilet at home. If video goes to cloud, those who have access to the server can see them. This is an unethical action or disrespectful behaviour that could humiliate them.
 3. Edge computing means data is collected, consumed, calculated, and in this case, deleted withint the local device at home. Video stays inside the ede device. Nobody can see the sensitive data or video footage because the data doesn't leave the edge device.
@@ -243,6 +255,7 @@ Let me show you side-by-side:
 **Polished**: "cloud cameras intrude on their privacy because video footage is transmitted to remote servers, making it accessible to server administrators"
 
 **What changed**:
+
 - "are intruding" → "intrude on" (correct verb pattern)
 - "video footage data" → "video footage" (removed redundancy)
 - "accessible by anyone managing" → "accessible to server administrators" (more precise)
@@ -257,6 +270,7 @@ Let me show you side-by-side:
 **Polished**: "This creates surveillance risks that violate elderly dignity and could cause humiliation"
 
 **What changed**:
+
 - Made it more abstract/formal (governance papers use words like "surveillance risks" and "violate dignity")
 - Same meaning, different vocabulary level
 
@@ -270,6 +284,7 @@ Let me show you side-by-side:
 **Polished**: "Edge computing means all data processing—collection, analysis, and deletion—occurs entirely on the local device"
 
 **What changed**:
+
 - "consumed, calculated" → "analysis" (more concise)
 - "within the local device at home" → "on the local device" (less wordy)
 
@@ -283,6 +298,7 @@ Let me show you side-by-side:
 **Polished**: "Camera detects person → system extracts skeletal pose (stick figure) → video is immediately deleted → only skeletal coordinates are retained"
 
 **What changed**:
+
 - Added technical terms: "detects", "extracts", "retained"
 - Made it flow better with arrows
 - "then delete" → "is immediately deleted" (passive voice, more formal)
@@ -297,6 +313,7 @@ Let me show you side-by-side:
 **Polished**: "when privacy principles guide design from the start, governance becomes embedded in the system architecture rather than retrofitted afterward"
 
 **What changed**:
+
 - "privacy by design first" → "privacy principles guide design from the start" (clearer)
 - "governance-centered" → "governance becomes embedded in the system architecture" (correct phrase)
 - Added contrast: "rather than retrofitted afterward" (this is your key contribution!)
@@ -333,6 +350,7 @@ I'm going to take your 5 answers and turn them into the abstract structure. You'
 Ready?
 
 **Should I:**
+
 - **Option A**: Draft the full abstract using YOUR answers (you review and tell me what to fix)
 - **Option B**: Do it section by section (Background → Purpose → Method → Results → Conclusion) so you see each piece transform
 
@@ -340,7 +358,7 @@ Which feels less overwhelming?
 
 ---
 
-### Sebastian Chose Option B
+### Monireach Chose Option B
 
 "Option B"
 
@@ -357,6 +375,7 @@ Perfect. Let me track this work and we'll go section by section.
 #### Section 1: BACKGROUND
 
 **Your Concrete Ideas (from questions 1 & 2):**
+
 - Elderly fall at home, need cameras to watch them
 - Cloud cameras = privacy intrusion (video goes to servers, admins can see)
 - Old people do private things at home (sleep, shower, toilet)
@@ -377,6 +396,7 @@ Perfect. Let me track this work and we'll go section by section.
 **Your words**: "Elderly fall, cameras watch them, cloud cameras intrude privacy, video to servers, admins see them"
 
 **Academic version adds**:
+
 - Technical term: "AI-powered healthcare applications"
 - Governance term: "privacy governance challenges"
 - Context: "vulnerable populations"
@@ -386,6 +406,7 @@ Perfect. Let me track this work and we'll go section by section.
 **Your words**: "Old people sleep, shower, toilet, unethical, disrespectful, humiliating"
 
 **Academic version uses**:
+
 - "private living spaces" (instead of listing each activity)
 - "violate elderly dignity" (instead of "disrespectful, humiliating")
 - "vulnerable individuals" (instead of "old people")
@@ -427,6 +448,7 @@ Before we continue, have you checked the abstract guideline? @resources/asip_202
 Yesterday you said: "I have learned the components of an Abstract: Background, Purpose, Method, Results, Conclusion"
 
 **ASIP guideline actually requires**:
+
 1. **Purpose** (Why you undertook the study)
 2. **Study design/methodology/approach** (How you did it)
 3. **Findings** (What you found)
@@ -437,6 +459,7 @@ Yesterday you said: "I have learned the components of an Abstract: Background, P
 The "Background" information (elderly falls, cloud privacy issues) should be integrated INTO the **Purpose** section as part of explaining "the problem solved."
 
 **Revised Structure:**
+
 - ~~Background~~ → Fold into Purpose
 - Purpose → Explain problem + why you studied it
 - Study design/methodology/approach → Your technical method
@@ -444,6 +467,7 @@ The "Background" information (elderly falls, cloud privacy issues) should be int
 - Originality/value → Your contribution
 
 **Should we:**
+
 - **Option 1**: Restart with correct ASIP structure (Purpose section that includes the background context)
 - **Option 2**: Keep Version A text but use it as part of Purpose section opening
 
@@ -466,6 +490,7 @@ Please notice that the guideline assumes that the paper is about a COMPLETED pro
 If your project is still under development, we need to know:
 
 **What DO you have?**
+
 - ✅ System design (architecture, edge computing, pose detection)
 - ✅ Hardware/software choices (Jetson Orin Nano, YOLOv8n, etc.)
 - ✅ Cost analysis ($475 vs cloud alternatives)
@@ -498,6 +523,7 @@ Claude reads: next_steps.md, datasets.md, hardware_decision.md, research_questio
 **Okay, I have the facts now.**
 
 **What you HAVE (Design Phase - COMPLETE)**:
+
 - ✅ System architecture (3 RGB cameras, Jetson Orin Nano, edge computing)
 - ✅ Hardware decisions ($475 system cost)
 - ✅ Privacy-by-design architecture (pose-only storage, no cloud)
@@ -506,6 +532,7 @@ Claude reads: next_steps.md, datasets.md, hardware_decision.md, research_questio
 - ✅ Algorithm pipeline designed (YOLOv8n + MediaPipe + CNN+LSTM+Transformer)
 
 **What you DON'T HAVE (Implementation Phase - NOT STARTED)**:
+
 - ❌ Prototype built
 - ❌ IR validation testing
 - ❌ Custom dataset collected
@@ -517,6 +544,7 @@ Claude reads: next_steps.md, datasets.md, hardware_decision.md, research_questio
 You have a **DESIGN PAPER**, not an empirical validation paper.
 
 Your "Findings" section will be **design outcomes**:
+
 - Edge computing architecture eliminates cloud transmission
 - Pose-only storage prevents facial recognition
 - 47% cost reduction from hardware optimization
@@ -550,11 +578,13 @@ Your "Findings" section will be **design outcomes**:
 **What ASIP wants**: "Explain the problem solved + your key argument/main finding"
 
 **Structure**:
+
 1. Context (1-2 sentences): Why elderly safety monitoring is important + current problem with cloud systems
 2. Research gap (1 sentence): Privacy governance challenge
 3. Your contribution (1 sentence): What this paper shows
 
 **Questions for YOU to answer** (write in your broken English):
+
 1. Why is elderly safety monitoring needed in Cambodia?
 2. What's wrong with cloud-based monitoring systems?
 3. What does your paper demonstrate?
@@ -587,6 +617,7 @@ into system architecture rather than retrofitting it afterward.
 **Word count**: 62 words ✅
 
 **Three questions**:
+
 1. Did I change your MEANING, or just remove extra details?
 2. Is anything WRONG in the ideas?
 3. Is anything critically MISSING that you think must be in Purpose section?
@@ -595,9 +626,7 @@ into system architecture rather than retrofitting it afterward.
 
 ### Monireach Approves Purpose Section
 
-"1. You didn't change
-2. Nothing is wrong
-3. Nothing is missing"
+"1. You didn't change 2. Nothing is wrong 3. Nothing is missing"
 
 ---
 
@@ -634,6 +663,7 @@ analysis and incident classification.
 ```
 
 **Three questions**:
+
 1. Did I cut anything that you think is CRITICAL to keep?
 2. Is the meaning still correct?
 3. Are you okay with removing the optimization techniques?
@@ -651,6 +681,7 @@ analysis and incident classification.
 **CRITICAL REMINDER**: You have NO empirical results (no accuracy, no testing). Your "findings" are **DESIGN OUTCOMES**.
 
 **Questions for YOU to answer**:
+
 1. What privacy protection does your design achieve?
 2. What's the total system cost and how does it compare to alternatives?
 3. Who can afford this system in Cambodia?
@@ -668,6 +699,7 @@ analysis and incident classification.
 [Explains the two market size estimates from hardware_decision.md: Conservative 180,000 vs Moderate 252,000-324,000]
 
 **Which should you use?**
+
 - **Option A** (Conservative): "180,000 elderly (top 50% urban households)"
 - **Option B** (More comprehensive): "252,000-324,000 elderly (12-18% of total elderly population)"
 
@@ -696,6 +728,7 @@ top 50% urban households.
 **Remaining budget**: 60 words for Originality/value section
 
 **Questions**:
+
 1. Are all numbers correct?
 2. Is anything WRONG or MISSING?
 
@@ -712,6 +745,7 @@ top 50% urban households.
 **What ASIP wants**: "Analyze the value of your findings + future research steps"
 
 **Questions for YOU to answer**:
+
 1. What's the main contribution of your research?
 2. Why does this matter for Cambodia or developing countries?
 3. What's the next step?
@@ -744,6 +778,7 @@ validation of detection accuracy, alert latency, and system reliability.
 ```
 
 **Questions**:
+
 1. Did I change your meaning?
 2. Is this what you wanted to say?
 3. Ready to see the complete abstract assembled?
@@ -767,6 +802,7 @@ validation of detection accuracy, alert latency, and system reliability.
 ### Next Steps
 
 Now we need to add:
+
 1. **Title**: What should the paper title be?
 2. **Keywords**: 3-6 keywords
 3. **Classification**: Research paper / Technical paper / Conceptual paper / Case study
@@ -825,10 +861,12 @@ For the title, either A or C is good for me. I hesitate to choose between them."
 **You do NOT have to choose Conceptual just because of the theme.**
 
 **Why Technical Paper works**:
+
 - Your paper shows **HOW** governance principles get implemented in technical architecture
 - **Technical implementation OF governance** is still governance research
 
 **Think of it this way**:
+
 - **Conceptual paper**: "Here's a framework for thinking about privacy governance in AI"
 - **Technical paper**: "Here's a working system design that implements privacy governance principles"
 
@@ -841,6 +879,7 @@ For the title, either A or C is good for me. I hesitate to choose between them."
 **My recommendation**: **Option A**
 
 **Why?**
+
 - "Governance-Driven Design" directly shows your contribution
 - Shorter and clearer
 - Better matches your Purpose section
@@ -864,8 +903,11 @@ For the title, either A or C is good for me. I hesitate to choose between them."
 ## Keyword Strategy (Practical Rules)
 
 ### Rule 1: **Search Optimization** - What would people type to FIND your paper?
+
 ### Rule 2: **Conference Alignment** - Match ASIP sub-themes
+
 ### Rule 3: **Uniqueness** - What makes YOUR paper different?
+
 ### Rule 4: **Hierarchy** - Mix broad + specific
 
 ## My Recommendation (5 keywords):
@@ -890,6 +932,7 @@ Privacy-by-design, Developing countries
 Now I need **author information** to format according to ASIP guidelines.
 
 **Questions**:
+
 1. **Your name** (as you want it to appear)?
 2. **Institution**: Cambodia University of Technology and Science (CamTech)?
 3. **Your email**?
@@ -899,10 +942,7 @@ Now I need **author information** to format according to ASIP guidelines.
 
 ### Monireach Provides Author Information
 
-"1. Monireach Tang (Author, Graduate Student)
-2. Cambodia University of Technology and Science (CamTech)
-3. monireach.tang@gmail.com
-4. His Excellency Dr. Seingheng Hul (Co-Author, Director General...); Asst. Prof. Dr. May Thu (Co-Author, Associate Dean...)
+"1. Monireach Tang (Author, Graduate Student) 2. Cambodia University of Technology and Science (CamTech) 3. monireach.tang@gmail.com 4. His Excellency Dr. Seingheng Hul (Co-Author, Director General...); Asst. Prof. Dr. May Thu (Co-Author, Associate Dean...)
 
 I want a LaTeX format, follow `/Users/monireach/.../latex_assessment_task_1`."
 
@@ -917,6 +957,7 @@ I want a LaTeX format, follow `/Users/monireach/.../latex_assessment_task_1`."
 File saved to: `deliverables/abstract_submitted/asip_2025_abstract.tex`
 
 **I need email addresses for your co-authors:**
+
 1. **His Excellency Dr. Seingheng Hul** - email?
 2. **Asst. Prof. Dr. May Thu** - email?
 
@@ -924,8 +965,7 @@ File saved to: `deliverables/abstract_submitted/asip_2025_abstract.tex`
 
 ### Monireach Provides Email Information
 
-"1. no email for now, leave a placeholder
-2. may.thu@camtech.edu.kh"
+"1. no email for now, leave a placeholder 2. may.thu@camtech.edu.kh"
 
 ---
 
@@ -944,6 +984,7 @@ File saved to: `deliverables/abstract_submitted/asip_2025_abstract.tex`
 ### Monireach Requests Format Verification
 
 "A few things to check for me:
+
 1. Have we followed the instruction for the paper?
 2. Do we have to add so many things above the abstract? Classification, Keywords, Research Type - should they be before the Abstract?
 3. The sub-title Abstract is not needed?
@@ -967,6 +1008,7 @@ File saved to: `deliverables/abstract_submitted/asip_2025_abstract.tex`
 4. **Classification** - Not printed in abstract itself (likely for submission form)
 
 **Current structure** (WRONG):
+
 ```
 Title
 Authors
@@ -975,6 +1017,7 @@ Abstract body
 ```
 
 **Should be** (CORRECT):
+
 ```
 Title
 Authors

@@ -1,0 +1,106 @@
+\documentclass[12pt,a4paper]{article}
+
+% ========================================
+% PACKAGE LOADING (Order matters!)
+% ========================================
+
+% 1. Document encoding (must be first)
+\usepackage[utf8]{inputenc}          % UTF-8 character encoding
+
+% 2. Font packages (Times New Roman)
+\usepackage{newtxtext,newtxmath}     % Modern Times font for text and math
+
+% 3. Page layout
+\usepackage[margin=0.85in]{geometry} % Set page margins to 0.85 inches
+\usepackage{setspace}                % Control line spacing
+\singlespacing                       % Single spacing as per guidelines
+
+% 4. Typography improvements
+\usepackage{microtype}               % Better text rendering (kerning, spacing)
+
+% 5. List formatting (currently unused but loaded)
+\usepackage{enumitem}                % Customize lists (itemize, enumerate)
+
+% 6. Hyperlinks (should be last)
+\usepackage{hyperref}                % Clickable links and email addresses
+\hypersetup{
+    colorlinks=true,                 % Enable colored links
+    linkcolor=black,                 % Internal links in black
+    filecolor=magenta,               % File links in magenta
+    urlcolor=blue,                   % URL/email links in blue
+    citecolor=black,                 % Citation links in black
+    pdfpagemode=FullScreen,          % PDF opens in fullscreen mode
+}
+
+% Title
+\title{\fontsize{16}{19}\selectfont\bfseries Privacy Governance-Driven Design of AI-Powered Elderly Safety Monitoring for Cambodia}
+
+% % Override title formatting to use exactly 16pt, but too complicated - adjust the \title{} definition directly
+% \makeatletter
+% \renewcommand{\maketitle}{
+% \begin{center}
+%     {\fontsize{16}{19}\selectfont\bfseries\@title\par}
+%     \vskip 1.5em
+%     {\normalsize\@author\par}
+%     \vskip 1em
+%     {\normalsize\@date\par}
+% \end{center}
+% }
+% \makeatother
+
+\author{
+    \normalsize
+    \textbf{Monireach Tang} \\[0pt]
+    \normalsize
+    Graduate School, Cambodia University of Technology and Science \\[0pt]
+    \normalsize
+    \texttt{monireach.tang@camtech.edu.kh} \\[12pt]
+    \normalsize
+    \textbf{Seingheng Hul}\textsuperscript{1, 2}  \\[0pt]
+    \normalsize
+    \textsuperscript{1}Ministry of Industry, Science, Technology \& Innovation \\[0pt]
+    \normalsize
+    \textsuperscript{2}Graduate School, Cambodia University of Technology and Science \\[0pt]
+    \normalsize
+    \texttt{hul.seignheng@misti.gov.kh} \\[12pt]
+    \normalsize
+    \textbf{May Thu} \\[0pt]
+    \normalsize
+    Graduate School, Cambodia University of Technology and Science \\[0pt]
+    \normalsize
+    \texttt{may.thu@camtech.edu.kh}
+}
+
+\date{} % No date per conference style, standard for conference papers
+
+\begin{document}
+
+\maketitle
+
+\thispagestyle{empty}
+
+% Abstract body
+\textbf{Purpose} -- This design study demonstrates how privacy governance principles can inform architectural decisions from inception rather than being retrofitted post-deployment, preserving privacy in elderly safety monitoring and enforcing sensitive data protection, while maintaining cost-effectiveness in Cambodia context.
+
+\vspace{0.5em}
+
+\textbf{Design/methodology/approach} -- The study validates technical feasibility and cost-\allowbreak{}effectiveness, using edge-based architecture pipeline comprising four RGB cameras with 850nm infrared night vision and an NVIDIA Jetson Orin Nano edge computing platform, on 20 commercial video footages, following this chronological approach: 1) Integrating YOLOv8n for person detection, defining the Region of Interest (ROI) from video frames; 2) Converting the ROI to skeletal coordinates using MediaPipe, representing the 17 body keypoints in COCO format; 3) Storing the skeletal coordinates (only); 4) Permanent deletion of original footage; 5) Incident classification using a hybrid CNN+LSTM+Transformer architecture.
+
+\vspace{0.5em}
+
+\textbf{Practical Implications/Limitations} -- Validating the 20 footages demonstrates 91.3\% keypoint detection with 20.53FPS processing speed, confirming 24/7 monitoring capability without facial recognition. Cost analysis shows edge architecture reduces 3-year total cost by 61\% compared to cloud alternatives, reaching 252,000-378,000 middle-income urban elderly (12-18\% of Cambodia's elderly) by 2030. Limitations include a lack of validation on benchmark datasets and pending hardware testing on actual Jetson Orin Nano deployment.
+
+\vspace{0.5em}
+
+\textbf{Originality/value} -- The study demonstrates that privacy-first architectural design yields economic co-benefits, contributing empirical evidence that governance principles can drive technical architecture while maintaining efficiency and cost-effectiveness in healthcare AI for Cambodia.
+
+\vspace{1em}
+
+% Keywords and Paper type at bottom
+\textbf{Keywords}: Privacy governance, Edge computing, Elderly safety monitoring, Privacy-by-design, Developing countries
+
+\vspace{1em}
+
+\textbf{Paper type}: Case Study
+
+\end{document}

@@ -1495,3 +1495,59 @@ Future empirical work on the main AI research project will convert these proposi
 - All priorities (13-16) completed successfully
 - Submission deadline met (Nov 16, 2025)
 
+---
+
+## November 18, 2025 - Abstract Resubmission Formatting
+
+**Context**: Conference requested abstract reformatting into structured sections (Purpose, Design/methodology/approach, Practical Implications/Limitations, Originality/value)
+
+**Key Discussions**:
+
+1. **Content Alignment Verification**:
+   - Verified resubmission abstract aligns with full paper abstract (lines 84-91)
+   - All key numbers match: 91.3% detection, 20.53 FPS, 61% cost reduction, 252k-378k elderly
+   - Confirmed "Case Study" as appropriate paper type vs other options (Research/Technical/Conceptual)
+   - Typo fixed: "conversaion" → "conversion" (line 63)
+
+2. **Font Package Issues Resolved**:
+   - Abstract uses `\usepackage{newtxtext,newtxmath}` with monospaced URLs (standard)
+   - Paper initially used deprecated `\usepackage{times}` causing non-monospaced URLs
+   - Replacing `times` with `newtxtext,newtxmath` caused compilation error
+   - **Root cause**: Package loading order - `newtxmath` requires `amsmath` loaded BEFORE it
+   - **Solution**: Moved `amsmath`/`amssymb` before font packages (lines 11-13)
+   - Email addresses: Used `\texttt{}` instead of `\url{}` to get monospaced while keeping APA-compliant regular URLs in references
+
+3. **LaTeX Formatting Refinements**:
+   - **Overfull hbox**: Changed `cost-\allowbreak{}effectiveness` to `cost-\-effectiveness` (standard hyphen breakpoint)
+   - **Page overflow**: Abstract spilled to page 2; reduced margins from 1in to 0.85in + reduced `\vspace` spacing
+   - **Page numbers**: Removed from single-page abstract using `\thispagestyle{empty}` (placed after `\maketitle`)
+   - **Title font size**: Set to exactly 16pt using `\fontsize{16}{19}\selectfont\bfseries` as per guidelines
+   - Explained `\selectfont` function: activates font changes (two-step process in LaTeX)
+
+4. **Package Organization**:
+   - Reorganized all packages in both abstract and paper with proper technical order
+   - Added comprehensive inline comments explaining each package's purpose
+   - Grouped related packages together (encoding, math, fonts, layout, citations, graphics, hyperlinks)
+   - Documented critical ordering: encoding → math → fonts → layout → citations → graphics → hyperlinks
+
+5. **Word Count Management**:
+   - Initial abstract: 272 words (22 over limit)
+   - Used `texcount` with line ranges to count only abstract body (excluding title/authors)
+   - Cut to exactly 250 words by removing "like Cambodia" from conclusion and reducing "a lack" to "lack"
+   - Final count: 250 words (within guideline)
+
+**Technical Decisions**:
+- Email formatting: Monospaced for abstract (no biblatex interference), `\texttt{}` for paper (preserves APA URL formatting in references)
+- Package order: Math packages MUST precede `newtxmath` (critical dependency)
+- "a lack of" vs "lack of": User confirmed "a lack of" is grammatically correct; kept original
+- Simple vs complex title formatting: Used simple `\fontsize` approach (equally precise, cleaner code)
+
+**Files Modified**:
+- deliverables/abstract/asip_2025_abstract_resubmission.tex: Package reorganization, formatting fixes, word count reduction
+- deliverables/paper_final/asip_2025_paper.tex: Package reorganization, font package fix, email formatting with `\texttt{}`
+
+**Progress Status**:
+- Abstract reformatted and ready for resubmission
+- All formatting requirements met (250 words, 16pt title, Times 12pt body, structured sections)
+- Package loading properly documented for future reference
+
