@@ -1551,3 +1551,73 @@ Future empirical work on the main AI research project will convert these proposi
 - All formatting requirements met (250 words, 16pt title, Times 12pt body, structured sections)
 - Package loading properly documented for future reference
 
+
+---
+
+## Nov 18, 2025 - Presentation Preparation (Paper Accepted)
+
+**Session Focus**: Conference presentation materials creation following paper acceptance
+
+**Key Discussions**:
+
+1. **Presentation Format Research**:
+   - User reported paper acceptance and invitation to conference
+   - Researched standard academic conference presentation practices for governance/AI conferences
+   - Found ASIP conference guidelines: 20 min presentation + 10 min Q&A (30 min total per presenter)
+   - Source: ASIP 2022 Conference Submission Guidelines (past conference format)
+   - User challenged source accessibility - acknowledged cannot independently verify, recommended contacting organizers
+   - User accepted 20+10 format as working assumption for preparation
+
+2. **Presentation Structure Planning**:
+   - Designed 14-slide deck (13 content + Q&A) for 20-minute presentation
+   - Format: Markdown for gamma.app (user's preferred tool)
+   - Governance-focused narrative arc emphasizing ASIP conference theme alignment
+   - Slides: Title → Challenge → Research Question → Privacy Architecture → Technical Approach → Validation Scope → NIR Results → Cost Results → Design Trade-offs → **Governance Implications** (key slide) → Regional Impact → Limitations → Conclusion → Q&A
+   - Pace: ~1.5 min per slide average
+   - No delivery guidance (pacing, pauses) per user request - user will manage timing personally
+
+3. **Speaker Notes Strategy**:
+   - Rigorous, conference-audience-friendly notes for each slide (150-250 words)
+   - Content includes: Narrative flow, key points to emphasize, anticipated questions, reference to paper sections
+   - Excluded: Delivery guidance (pacing, pauses, audience engagement) per user preference
+   - Academic rigor focus: honest about validation scope, clear limitations acknowledgment
+
+4. **Q&A Preparation Guide**:
+   - Created comprehensive 20-question guide across 7 topic areas:
+     - Privacy and Data Protection (6 questions)
+     - Cost and Affordability (3 questions)
+     - Technical Performance (4 questions)
+     - Validation Scope and Research Design (4 questions)
+     - Governance and Policy (3 questions)
+     - Regional Context and Scalability (2 questions)
+     - Practical Implementation (2 questions)
+   - Each question: Short answer (15-30 sec) + Detailed answer (45-90 sec) + Supporting evidence + Paper section references
+   - Strategy notes for handling questions outside scope, redirecting to paper, acknowledging uncertainty
+   - Time management: 3-4 questions expected in 10-minute Q&A
+
+**Key Messaging Priorities**:
+- Privacy governance drives architecture (not retrofitted)
+- Edge computing yields economic co-benefits beyond privacy (accessibility governance)
+- Context-specific design for developing countries (evidence-based incident prioritization)
+- Academic honesty about validation scope (NIR compatibility + cost-effectiveness, NOT fall detection accuracy)
+- Key statistics: 91.3%, 61%, 252K-378K, 20.53 FPS
+
+**Technical Decisions**:
+- Markdown format compatible with gamma.app using `---` slide separators
+- Visual suggestions embedded as HTML comments in slide content
+- Speaker notes placed directly after each slide for easy reference
+- Separate Q&A preparation document for detailed rehearsal
+
+**Files Created**:
+- deliverables/presentation/asip_2025_presentation.md: 14 slides with comprehensive speaker notes
+- deliverables/presentation/qa_preparation_guide.md: 20 Q&A scenarios with detailed answers
+
+**Files Modified**:
+- PROJECT.md: Updated status to "Paper Accepted - Presentation Ready", added presentation materials section, updated project structure, updated next steps
+- Todo list: Tracked presentation preparation tasks
+
+**Progress Status**:
+- Presentation materials complete and ready for gamma.app import
+- Q&A preparation guide ready for rehearsal
+- Next: User will practice presentation timing, prepare for Dec 4-5 conference
+
