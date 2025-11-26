@@ -232,6 +232,31 @@ This shows a governance principle: don't optimize technical metrics in isolation
 
 ---
 
+### Q9a: What does "Pose Coverage" mean in your pipeline comparison?
+
+**Short Answer** (20 seconds):
+Pose Coverage measures how often the system successfully detects a complete pose. For baseline, it's the percentage of all frames where MediaPipe found a pose. For integrated pipeline, it's the percentage of frames where a person was detected by YOLO and MediaPipe successfully extracted their pose.
+
+**Detailed Answer** (1 minute):
+The metric is calculated differently for each pipeline. Baseline pose coverage—63.8%—means that out of all processed frames, MediaPipe detected a valid pose in 63.8% of them. It's frames with pose divided by total frames.
+
+Integrated pose coverage—86.0%—is more specific. It only counts frames where YOLO first detected a person. Out of those person-detected frames, MediaPipe successfully extracted the pose 86% of the time. So the denominator is smaller—only frames with people, not all frames.
+
+Why the 22.2% improvement? ROI cropping. When YOLO finds the person first and crops that region, MediaPipe gets a zoomed-in view focused on the person. That makes pose detection more reliable than processing the entire frame where the person might be small or partially occluded.
+
+This is different from keypoint detection rate, which measures what percentage of the 33 possible landmarks were detected when a pose was found. Pose coverage measures how often we find any valid pose at all.
+
+**Supporting Evidence**:
+
+- Baseline: 63.8% pose coverage (frames with pose / total frames)
+- Integrated: 86.0% pose coverage (frames with pose / frames with person detected)
+- Improvement: +22.2% from ROI cropping
+- Calculated in pipeline_comparison.py (lines 102-106, 236-245)
+
+**Paper Reference**: Section 4.1 (NIR Camera Compatibility), Validation Results A1.3
+
+---
+
 ### Q10: Have you tested this on actual Jetson Orin Nano hardware?
 
 **Short Answer** (15 seconds):

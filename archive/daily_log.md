@@ -1621,3 +1621,97 @@ Future empirical work on the main AI research project will convert these proposi
 - Q&A preparation guide ready for rehearsal
 - Next: User will practice presentation timing, prepare for Dec 4-5 conference
 
+
+---
+
+## 2025-11-26 - Paper/Presentation Alignment & Market Reach Correction
+
+**Session Focus**: Comprehensive alignment check between paper, presentation, and current_state files; corrected market reach calculations
+
+**Key Discussions**:
+- Identified market reach overclaim: 378,000 (18%) not supported by affordability data
+- Clarified "Two Design Principles" vs "Three Mechanisms" framing inconsistency
+- Discovered presentation had incorrect baseline pose coverage values
+- Validated all calculations in Market Accessibility table
+
+**Decisions Made**:
+- Corrected market reach to 168,000-252,000 (8-12%) based on 4th-5th quintiles only
+- Standardized architecture framing: "Two mechanisms" (Edge-first + Pose-only with frame disposal)
+- Fixed baseline metrics: 85.6% detection, 63.8% pose coverage (not 86.1%, 79.5%)
+- Removed orphaned table footnote ($^d$)
+
+**Actions Taken**:
+1. Updated paper (asip_2025_paper.tex):
+   - Market reach: 252,000-378,000 → 168,000-252,000 (8 locations)
+   - Architecture: Three → Two mechanisms
+   - Confidence: 0.869 → 0.868
+   - Removed unused footnote $^d$
+
+2. Updated presentation (asip_2025_presentation.md):
+   - Removed redundant Slide 11 (Cambodia Case Study)
+   - Streamlined Conclusion speaker notes (77% reduction)
+   - Pose coverage: 79.5%/96.9% → 63.8%/86.0%
+   - Architecture: Two principles (matches paper)
+
+3. Updated abstract (asip_2025_abstract_resubmission.tex):
+   - Market reach: 252,000-378,000 → 168,000-252,000
+
+4. Bulk updated all current_state files:
+   - Corrected metrics: 0.869→0.868, 79.5%→63.8%, 96.9%→86.0%, 86.1%→85.6%
+   - Architecture framing: Three→Two mechanisms
+   - Files: abstract.md, key_messages.md, next_steps.md, paper_outline.md, research_summary.md, validation_results.md
+
+**Validation Completed**:
+- Market Accessibility table calculations verified (lines 483-512)
+- All percentage calculations confirmed correct
+- Edge vs cloud expansion: 33-100% validated
+
+**Final Status**:
+- Paper, presentation, abstract, current_state files fully aligned
+- All metrics consistent with validation_results.md
+- Market claims defensible (limited to affordable quintiles)
+- Ready for resubmission
+
+---
+
+## 2025-11-26 - Presentation Finalization & Abstract Revision
+
+**Session Focus**: Finalized presentation slides, revised abstract per reviewer feedback, extracted speaker notes
+
+**Key Discussions**:
+- Clarified "Pose Coverage" metric definition (frames with pose detected / frames with person)
+- Reviewed actual Google Slides PDF for presentation quality
+- Addressed abstract structure issue flagged by conference reviewers
+
+**Decisions Made**:
+- Added Pose Coverage explanation to presentation speaker notes (Slide 9)
+- Split abstract "Practical Implications/Limitations" into separate "Findings" and "Practical implications" sections
+- Kept combined "Practical Implications/Limitations" heading (acceptable per reviewer guidance)
+
+**Actions Taken**:
+1. Updated presentation (asip_2025_presentation.md):
+   - Added brief Pose Coverage definition in Slide 9 speaker notes
+   - Presentation structure validated against slides PDF
+
+2. Updated abstract (asip_2025_abstract_resubmission.tex):
+   - Added separate "Findings" section (91.3% detection, 61% cost reduction, month 13 breakeven)
+   - Renamed section to "Practical Implications/Limitations"
+   - Added missing verb: "Cost analysis shows" (was: "Cost analysis a")
+   - Clarified "850nm IR" specification
+   - Trimmed to 247 words (safely under 250 limit)
+
+3. Added Q&A preparation:
+   - Created Q9a in qa_preparation_guide.md explaining Pose Coverage metric
+   - Included code reference to pipeline_comparison.py calculation
+
+4. Created extracted_speaker_notes.md:
+   - Print-ready speaker notes extracted from all slides
+   - Organized by slide number with transitions
+   - Ready for conference presentation Dec 4-5
+
+**Final Status**:
+- Presentation slides finalized and validated against PDF
+- Abstract revised per reviewer requirements (structure corrected, word count 247/250)
+- Speaker notes ready for printing
+- Q&A guide enhanced with technical metric explanations
+

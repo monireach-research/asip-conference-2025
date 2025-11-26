@@ -130,7 +130,7 @@ This study proposes a privacy governance-driven architecture for elderly safety 
 
 **3.1.1 Privacy Governance Principles**
 
-Three architectural mechanisms enforce privacy by design:
+Two architectural mechanisms enforce privacy by design:
 
 1. **Pose-only storage**: System stores only 17 body keypoints (COCO format), excluding face landmarks. Raw video frames never persisted to storage. [VERIFIED - research_summary.md design]
 
@@ -241,7 +241,7 @@ MediaPipe pose estimation was validated on 20 commercial 850nm NIR security came
 - **False negative rate**: 12.3% (frames with person present but pose detection failed) [VERIFIED - validation_results.md A1.2a integrated pipeline result]
 - **Processing speed**: 20.53 FPS (integrated YOLO+MediaPipe pipeline) [VERIFIED - validation_results.md A1.3 integrated pipeline]
 
-Pipeline comparison tested baseline MediaPipe versus integrated YOLO+MediaPipe approach on the same 20 videos. [VERIFIED - validation_results.md A1.3] Integrated approach achieved 5.7% higher keypoint detection and 22.2% better pose coverage, but was 2.3× slower (20.53 FPS vs 47.37 FPS). [VERIFIED - validation_results.md A1.3: baseline 86.1%, integrated 91.3%; baseline 79.5%, integrated 96.9%; baseline 47.37 FPS, integrated 20.53 FPS] The integrated pipeline was selected based on safety-critical priority: accuracy over speed when both exceed real-time requirements. [VERIFIED - research_summary.md decision rationale]
+Pipeline comparison tested baseline MediaPipe versus integrated YOLO+MediaPipe approach on the same 20 videos. [VERIFIED - validation_results.md A1.3] Integrated approach achieved 5.7% higher keypoint detection and 22.2% better pose coverage, but was 2.3× slower (20.53 FPS vs 47.37 FPS). [VERIFIED - validation_results.md A1.3: baseline 85.6%, integrated 91.3%; baseline 63.8%, integrated 86.0%; baseline 47.37 FPS, integrated 20.53 FPS] The integrated pipeline was selected based on safety-critical priority: accuracy over speed when both exceed real-time requirements. [VERIFIED - research_summary.md decision rationale]
 
 #### 4.2 Cost-Effectiveness Analysis
 
@@ -252,7 +252,7 @@ System cost was compared against a cloud-based elderly fall detection alternativ
 - **Cost savings**: 61% reduction ($1,047 savings over 3 years) [VERIFIED - validation_results.md A4.2: ($1,719-$672)/$1,719 = 60.9%]
 - **Breakeven point**: Month 1 of Year 2 [VERIFIED - validation_results.md A4.2: Month 13]
 
-Market accessibility analysis shows edge-based system targets middle-income urban Cambodian households (4th-5th quintile, $870-$1,622/month). [VERIFIED - validation_results.md A4.2; National Institute of Statistics 2019] Estimated reach: 12-18% of elderly population (252,000-378,000 individuals by 2030). [VERIFIED - validation_results.md A4.2] Zero-subscription model eliminates ongoing payment burden, expanding affordability compared to recurring-cost alternatives. [VERIFIED - validation_results.md A4.2 analysis]
+Market accessibility analysis shows edge-based system targets middle-income urban Cambodian households (4th-5th quintile, $870-$1,622/month). [VERIFIED - validation_results.md A4.2; National Institute of Statistics 2019] Estimated reach: 8-12% of elderly population (168,000-252,000 individuals by 2030). [VERIFIED - validation_results.md A4.2] Zero-subscription model eliminates ongoing payment burden, expanding affordability compared to recurring-cost alternatives. [VERIFIED - validation_results.md A4.2 analysis]
 
 ---
 
@@ -264,7 +264,7 @@ Market accessibility analysis shows edge-based system targets middle-income urba
 This study demonstrates how privacy governance principles drive architectural design decisions. [VERIFIED - research_summary.md research question] Edge-based processing eliminates cloud transmission requirements, enforcing data locality through system constraints rather than operational promises. [VERIFIED - research_summary.md design] The architecture achieves facial anonymity by design: pose-only storage makes facial recognition impossible, not merely prohibited. [VERIFIED - research_summary.md design: 17 body keypoints only, face landmarks excluded] Validation results (91.3% keypoint detection on 850nm NIR footage) confirm technical feasibility of privacy-first design without performance compromise. [VERIFIED - validation_results.md A1.2a]
 
 **Accessibility governance through cost optimization:**
-Edge architecture yields economic co-benefits beyond privacy. Eliminating cloud infrastructure reduces total cost by 61% ($672 vs $1,719 over 3 years), expanding market accessibility from cloud-dependent alternatives. [VERIFIED - validation_results.md A4.2] Zero-subscription model removes recurring payment barriers, targeting middle-income Cambodian households (4th-5th quintile, $870-$1,622/month). [VERIFIED - National Institute of Statistics 2019; validation_results.md A4.2] Estimated reach: 12-18% of elderly population (252,000-378,000 individuals by 2030). Edge-based architecture expands affordability beyond cloud alternatives requiring ongoing subscriptions that limit accessibility for middle-income households. [VERIFIED - validation_results.md A4.2 market reach calculation]
+Edge architecture yields economic co-benefits beyond privacy. Eliminating cloud infrastructure reduces total cost by 61% ($672 vs $1,719 over 3 years), expanding market accessibility from cloud-dependent alternatives. [VERIFIED - validation_results.md A4.2] Zero-subscription model removes recurring payment barriers, targeting middle-income Cambodian households (4th-5th quintile, $870-$1,622/month). [VERIFIED - National Institute of Statistics 2019; validation_results.md A4.2] Estimated reach: 8-12% of elderly population (168,000-252,000 individuals by 2030). Edge-based architecture expands affordability beyond cloud alternatives requiring ongoing subscriptions that limit accessibility for middle-income households. [VERIFIED - validation_results.md A4.2 market reach calculation]
 
 **Context-specific design for developing countries:**
 System design incorporates regional epidemiological evidence: three incident types prioritized based on Thai elderly fall data (37.7% prevalence) and Chinese long-term care studies. [VERIFIED - Maiyapakdee 2025; Li & Shi 2022; research_summary.md incident types] Hardware selection (850nm NIR cameras, edge processor) addresses Cambodia's middle-income market constraints while maintaining technical performance requirements. [VERIFIED - validation_results.md A1.2c, A4.2] This demonstrates governance-driven design approach for resource-constrained contexts. [VERIFIED - research_summary.md research question]
@@ -275,7 +275,7 @@ System design incorporates regional epidemiological evidence: three incident typ
 Validated MediaPipe pose estimation on 850nm NIR footage (91.3% keypoint detection, 20 diverse commercial CCTV videos). [VERIFIED - validation_results.md A1.2a, A1.2c] Confirms feasibility of 24/7 elderly monitoring without facial recognition technology. Limited research has empirically validated pose estimation performance on NIR wavelengths used in affordable security cameras for elderly monitoring applications. [VERIFIED - gap identified in research_summary.md; supported by Wang et al. 2020 survey showing need for validation]
 
 **Pipeline trade-off analysis for safety-critical systems:**
-Comparison of baseline versus integrated YOLO+MediaPipe revealed accuracy-speed trade-off: integrated approach achieved 5.7% higher detection and 22.2% better coverage, but 2.3× slower. [VERIFIED - validation_results.md A1.3: 91.3% vs 86.1%, 96.9% vs 79.5%, 20.53 FPS vs 47.37 FPS] Decision prioritized accuracy for safety-critical application where missing fall detection has fatal consequences. Both configurations exceed real-time requirements (20.53 FPS vs 15 FPS target). [VERIFIED - validation_results.md A1.3; 15 FPS target from research_summary.md]
+Comparison of baseline versus integrated YOLO+MediaPipe revealed accuracy-speed trade-off: integrated approach achieved 5.7% higher detection and 22.2% better coverage, but 2.3× slower. [VERIFIED - validation_results.md A1.3: 91.3% vs 85.6%, 86.0% vs 63.8%, 20.53 FPS vs 47.37 FPS] Decision prioritized accuracy for safety-critical application where missing fall detection has fatal consequences. Both configurations exceed real-time requirements (20.53 FPS vs 15 FPS target). [VERIFIED - validation_results.md A1.3; 15 FPS target from research_summary.md]
 
 #### 5.3 Limitations
 
@@ -304,7 +304,7 @@ Comparison of baseline versus integrated YOLO+MediaPipe revealed accuracy-speed 
 This study demonstrates privacy governance-driven architectural design through a Cambodia elderly monitoring case study: [VERIFIED - research_summary.md research question]
 
 - **Technical feasibility**: Edge-based pose estimation achieves 91.3% keypoint detection on 850nm NIR footage, validating 24/7 privacy-preserving monitoring capability [VERIFIED - validation_results.md A1.2a]
-- **Cost-effectiveness**: Edge architecture reduces 3-year total cost by 61% ($672 vs $1,719 cloud alternative), expanding market reach to 252,000-378,000 elderly in middle-income Cambodian households [VERIFIED - validation_results.md A4.2]
+- **Cost-effectiveness**: Edge architecture reduces 3-year total cost by 61% ($672 vs $1,719 cloud alternative), expanding market reach to 168,000-252,000 elderly in middle-income Cambodian households [VERIFIED - validation_results.md A4.2]
 - **Design trade-offs**: Safety-critical priority guides pipeline selection—integrated approach chosen despite 2.3× slower speed due to 5.7% accuracy gain and 22.2% better pose coverage [VERIFIED - validation_results.md A1.3; research_summary.md decision rationale]
 - **Governance-driven design**: Privacy governance principles informed architectural decisions from inception (edge processing, pose-only storage, immediate frame disposal) rather than being retrofitted post-deployment [VERIFIED - research_summary.md design; Cavoukian 2010 Privacy by Design]
 
@@ -344,7 +344,7 @@ This study demonstrates privacy governance-driven architectural design through a
 
 - **61% cost reduction**: $672 vs $1,719 over 3 years
 - **91.3% keypoint detection**: 850nm NIR validation, 20 commercial CCTV videos
-- **252,000-378,000 potential users**: 12-18% of Cambodian elderly population
+- **168,000-252,000 potential users**: 8-12% of Cambodian elderly population
 - **37.7% fall prevalence**: Thai elderly home accidents (Maiyapakdee et al., 2025)
 - **20.53 FPS**: Integrated pipeline on standard hardware
 - **100% on-device**: Zero cloud transmission, immediate frame disposal

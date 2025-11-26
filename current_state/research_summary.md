@@ -126,8 +126,8 @@ Contactless AI-Powered Incident Detection System for Elderly Safety Monitoring
 
 ### Target Market Accessibility
 - **Target**: Middle-income urban Cambodian households (top 40-60% income bracket)
-- **Market reach**: 12-18% of total elderly population
-- **Potential users**: 252,000-378,000 individuals by 2030
+- **Market reach**: 8-12% of total elderly population
+- **Potential users**: 168,000-252,000 individuals by 2030
 
 ---
 
@@ -168,7 +168,7 @@ Contactless AI-Powered Incident Detection System for Elderly Safety Monitoring
 
 ### Accessibility Governance
 - **Affordable innovation**: 61% cost reduction vs cloud alternatives ($672 vs $1,719 over 3 years)
-- **Market expansion**: 252,000-378,000 elderly in middle-income Cambodian households (12-18% of elderly population by 2030)
+- **Market expansion**: 168,000-252,000 elderly in middle-income Cambodian households (8-12% of elderly population by 2030)
 - **Regional context**: Evidence-based design using Thai and Chinese elderly care data
 
 ---

@@ -96,7 +96,7 @@
 % Abstract
 \begin{abstract}
     \noindent
-    Cambodia's elderly population will reach approximately 2.1 million by 2030, comprising 11\% of total population, amid healthcare challenges including physician shortages and geographic disparities. Traditional cloud-based elderly monitoring systems transmit sensitive video footage to remote servers, creating surveillance risks that affect populations with limited data protection enforcement. This design study demonstrates how privacy governance principles can inform architectural decisions from inception rather than being retrofitted post-deployment. Using design science research methodology, the study validates technical feasibility and cost-effectiveness of edge-based pose estimation for elderly safety monitoring in resource-constrained contexts. The proposed architecture comprises four RGB cameras with 850nm infrared night vision and an NVIDIA Jetson Orin Nano edge computing platform. Privacy protection emerges from system constraints: immediate conversion of video frames to skeletal coordinates (17 body keypoints in COCO format), pose-only storage, and permanent deletion of original footage. The processing pipeline integrates YOLOv8n person detection, MediaPipe pose estimation, and a CNN-LSTM-Transformer architecture for incident classification, achieving 100\% on-device processing with zero cloud transmission. Validation on 20 commercial CCTV videos demonstrates 91.3\% keypoint detection on 850nm NIR footage with 20.53 FPS processing speed, confirming 24/7 monitoring capability without facial recognition technology. Cost analysis shows edge architecture reduces 3-year total cost by 61\% compared to cloud alternatives (\$672 vs. \$1,719), expanding market accessibility to an estimated 252,000-378,000 elderly individuals in middle-income Cambodian urban households (4th-5th income quintiles, representing 12-18\% of elderly population by 2030). The study demonstrates that privacy-first architectural design yields economic co-benefits, though fall detection accuracy requires validation on benchmark datasets with ground truth annotations. This work contributes empirical evidence that governance principles can drive technical architecture in healthcare AI for developing countries.
+    Cambodia's elderly population will reach approximately 2.1 million by 2030, comprising 11\% of total population, amid healthcare challenges including physician shortages and geographic disparities. Cloud-based elderly monitoring systems transmit sensitive data to remote servers, creating surveillance risks with limited data protection enforcement. This study demonstrates how privacy principles can inform architectural decisions from inception rather than being retrofitted post-deployment by validating technical feasibility and cost-effectiveness of edge-based pose estimation for elderly safety monitoring in resource-constrained contexts. The proposed architecture comprises four 850nm NIR cameras and an NVIDIA Jetson Orin Nano edge platform. Privacy protection emerges from system constraints: immediate conversion of video frames to skeletal coordinates, pose-only storage, and permanent deletion of original footage. The pipeline integrates YOLOv8n person detection and MediaPipe pose estimation, achieving 100\% on-device processing. Validation on 20 commercial CCTV videos demonstrates 91.3\% keypoint detection with 20.53 FPS processing speed, confirming 24/7 monitoring capability without facial recognition technology. Cost analysis shows edge architecture reduces 3-year total cost by 61\% compared to cloud alternatives, expanding market accessibility to 168,000-252,000 elderly individuals in middle-income Cambodian urban households, representing 8-12\% of elderly population by 2030. The study demonstrates privacy-first design yields economic co-benefits, though fall detection accuracy requires validation on benchmark datasets with ground truth annotations. This work contributes empirical evidence that governance principles can drive technical architecture in healthcare AI for Cambodia.
 
     \vspace{0.5em}
     \noindent
@@ -108,7 +108,7 @@
 
 \subsection{Problem Context}
 
-Since the 2000s, global demographic transitions have constituted a pressing challenge for healthcare systems. Southeast Asia's elderly population is projected to increase from 12.2\% in 2024 to 22.9\% by 2050 \parencite{whoAgeingHealthSEARO2025}, representing a fundamental restructuring of regional age distributions. Cambodia's elderly population (60+ years) will reach approximately 2.1 million by 2030, comprising 11\% of the projected 19 million total population \parencite{unitednationsdepartmentofeconomicandsocialaffairspopulationdivisionDataPortalPopulation2015}, with 12-18\% residing in middle-income urban households (4th-5th income quintiles).
+Since the 2000s, global demographic transitions have constituted a pressing challenge for healthcare systems. Southeast Asia's elderly population is projected to increase from 12.2\% in 2024 to 22.9\% by 2050 \parencite{whoAgeingHealthSEARO2025}, representing a fundamental restructuring of regional age distributions. Cambodia's elderly population (60+ years) will reach approximately 2.1 million by 2030, comprising 11\% of the projected 19 million total population \parencite{unitednationsdepartmentofeconomicandsocialaffairspopulationdivisionDataPortalPopulation2015}, with 8-12\% residing in middle-income urban households (4th-5th income quintiles).
 
 Falls represent the leading cause of injury-related deaths among elderly populations—\allowbreak{}684,000 annual fatalities globally, with 60\% concentrated in Western Pacific and Southeast Asia regions \parencite{whoFalls2021}. The challenge that middle-income families face is providing continuous supervision for elderly relatives while managing employment obligations. Strong family caregiving norms rooted in filial piety values create preference for home-based elderly care over institutional facilities across Southeast Asia \parencite{romliFallsAmongstOlder2017}, which means that technology solutions must fit within family homes rather than institutional deployment contexts. This cultural context shapes both the problem space and solution constraints in ways that Western healthcare AI research does not always adequately consider.
 
@@ -148,7 +148,7 @@ This study addresses the identified gaps through three objectives:
     \item \textbf{Quantify cost-effectiveness and accessibility implications}: Compare edge-based architecture total costs against cloud-dependent alternatives to assess whether privacy-first design expands market accessibility for middle-income Cambodian households.
 \end{enumerate}
 
-This work contributes empirical evidence that privacy governance need not trade off against affordability or performance. When integrated at the architectural design stage rather than applied as post-hoc compliance measure, privacy principles can guide technical decisions that simultaneously enhance data protection and expand economic accessibility. The study targets middle-income urban Cambodian households (4th-5th income quintiles, representing estimated 12-18\% of elderly population by 2030) but has broader implications for healthcare AI governance in resource-constrained contexts globally.
+This work contributes empirical evidence that privacy governance need not trade off against affordability or performance. When integrated at the architectural design stage rather than applied as post-hoc compliance measure, privacy principles can guide technical decisions that simultaneously enhance data protection and expand economic accessibility. The study targets middle-income urban Cambodian households (4th-5th income quintiles, representing estimated 8-12\% of elderly population by 2030) but has broader implications for healthcare AI governance in resource-constrained contexts globally.
 
 
 \section{Literature Review}
@@ -200,13 +200,11 @@ This study proposes a privacy governance-driven architecture for elderly safety 
 
 \subsubsection{Privacy Governance Principles}
 
-Three architectural mechanisms enforce privacy by design \parencite{cavoukianPrivacyDesignEssential2010}:
-
-\textbf{Pose-only storage.} The system stores only 17 body keypoints in COCO format (Common Objects in Context standard: shoulders, elbows, wrists, hips, knees, ankles, and torso keypoints), excluding face landmarks entirely. MediaPipe's full pose model detects 33 landmarks, but facial keypoints are intentionally discarded during extraction. Raw video frames are never persisted to storage—not encrypted, not anonymized, simply never written to disk. This design choice eliminates facial recognition capability structurally: no facial data exists to enable identification.
-
-\textbf{Immediate frame disposal.} Video frames undergo processing in real-time, with deletion occurring immediately after keypoint extraction. The temporal gap between frame capture and deletion measures in milliseconds, limited by processing pipeline speed. No video retention eliminates retrospective re-identification risk, data breach exposure of video archives, and dependency on deletion policy compliance.
+Two architectural mechanisms enforce privacy by design \parencite{cavoukianPrivacyDesignEssential2010}:
 
 \textbf{Edge-first processing.} All computation occurs on a local device (NVIDIA Jetson Orin Nano 8GB for target deployment). Zero cloud transmission eliminates network exposure entirely. Data sovereignty concerns vanish when data never leaves the household.
+
+\textbf{Pose-only storage with immediate frame disposal.} The system stores only 17 body keypoints in COCO format (Common Objects in Context standard: shoulders, elbows, wrists, hips, knees, ankles, and torso keypoints), excluding face landmarks entirely. MediaPipe's full pose model detects 33 landmarks, but facial keypoints are intentionally discarded during extraction. Raw video frames are never persisted to storage—not encrypted, not anonymized, simply never written to disk. Video frames undergo processing in real-time, with deletion occurring immediately after keypoint extraction. The temporal gap between frame capture and deletion measures in milliseconds, limited by processing pipeline speed. This design choice eliminates facial recognition capability structurally: no facial data exists to enable identification, and no video retention eliminates retrospective re-identification risk, data breach exposure of video archives, and dependency on deletion policy compliance.
 
 \subsubsection{Hardware Design}
 
@@ -237,7 +235,7 @@ Two \textbf{processing modes} underwent validation testing: (1) Baseline configu
     \label{fig:system_architecture}
     \begin{flushleft}
         \footnotesize
-        \textit{Note.} Architecture enforces privacy through three mechanisms: (1) pose-only storage (17 body keypoints, no facial landmarks), (2) immediate video frame disposal after keypoint extraction, and (3) 100\% on-device processing with zero cloud transmission. All computation occurs on local edge device, eliminating network exposure and cloud data sovereignty concerns.
+        \textit{Note.} Architecture enforces privacy through two mechanisms: (1) 100\% on-device edge processing with zero cloud transmission, and (2) pose-only storage with immediate frame disposal (17 body keypoints, no facial landmarks, video frames deleted immediately after extraction). All computation occurs on local edge device, eliminating network exposure and cloud data sovereignty concerns.
     \end{flushleft}
 \end{figure}
 
@@ -292,7 +290,7 @@ Cambodia Socio-Economic Survey (CSES) household income data \parencite{nationali
 
 The \$672 system cost represents 0.41-0.77 months of income for these households, positioning the system as a significant but plausibly affordable one-time purchase. By contrast, the Kami cloud alternative's \$45/month subscription represents 2.8-5.2\% of monthly income—\,a recurring payment that compounds over time.
 
-Cambodia's elderly population (60+ years) will reach approximately 2.1 million by 2030 \parencite{unitednationsdepartmentofeconomicandsocialaffairspopulationdivisionDataPortalPopulation2015}. Estimating that 12-18\% fall within middle-income urban households with financial capacity and motivation to adopt fall detection technology yields 252,000-378,000 potential users.
+Cambodia's elderly population (60+ years) will reach approximately 2.1 million by 2030 \parencite{unitednationsdepartmentofeconomicandsocialaffairspopulationdivisionDataPortalPopulation2015}. Estimating that 8-12\% fall within middle-income urban households with financial capacity and motivation to adopt fall detection technology yields 168,000-252,000 potential users.
 
 \subsection{Evaluation Metrics}
 
@@ -376,7 +374,7 @@ The baseline MediaPipe-only pipeline (pose estimation applied directly to full f
 \begin{itemize}
     \item Detection accuracy: 91.3\% vs. 85.6\% = 5.7 percentage point improvement (6.7\% relative improvement)
     \item Pose coverage: 86.0\% (frames with at least one keypoint detected) vs. 63.8\% baseline, representing 22.2 percentage point improvement in coverage reliability
-    \item Confidence: 0.869 vs. 0.833 = 0.036 point improvement
+    \item Confidence: 0.868 vs. 0.833 = 0.035 point improvement
     \item Speed cost: 20.53 FPS vs. 47.37 FPS = 2.3× slower processing for integrated pipeline
 \end{itemize}
 
@@ -393,7 +391,7 @@ The integrated YOLO+MediaPipe approach was selected for the proposed system arch
         \midrule
         Processing speed (FPS)            & 47.37                     & 20.53                     & -56.7\%         \\
         Keypoint detection rate (\%)      & 85.6                      & 91.3                      & +5.7 pp$^a$     \\
-        Average confidence                & 0.833                     & 0.869                     & +0.036          \\
+        Average confidence                & 0.833                     & 0.868                     & +0.035          \\
         Pose coverage (\%)                & 63.8                      & 86.0                      & +22.2 pp        \\
         False negative rate (\%)          & 20.5                      & 12.3                      & -8.2 pp         \\
         \midrule
@@ -476,12 +474,11 @@ The subscription structure creates ongoing payment burden. The \$45/month Kami s
 \begin{itemize}
     \item Total elderly population (60+ years): ~2.1 million
     \item Urban elderly (20\% urbanization rate for elderly): ~420,000
-    \item Middle-income urban elderly (4th-5th quintiles, ~40\% of urban households): ~168,000
+    \item Middle-income urban elderly (~40\% of urban households): \textbf{168,000 potential adopters}
     \item Conservative estimate (60\% adoption factor): \textbf{252,000 potential adopters}
-    \item Upper bound estimate (90\% adoption in 5th quintile): \textbf{378,000 potential adopters}
 \end{itemize}
 
-The 252,000-378,000 range represents 12-18\% of Cambodia's projected elderly population. By comparison, the cloud system's higher cost might contract market reach to approximately 5th quintile only: ~126,000 potential adopters (6\% of elderly population), representing 50\% smaller market than edge system reach.
+The 168,000-252,000 range represents 8-12\% of Cambodia's projected elderly population. By comparison, the cloud system's higher cost might contract market reach to approximately 5th quintile only: ~126,000 potential adopters (6\% of elderly population), representing 25-50\% smaller market than edge system reach.
 
 \begin{table}[htbp]
     \centering
@@ -493,9 +490,8 @@ The 252,000-378,000 range represents 12-18\% of Cambodia's projected elderly pop
         \midrule
         Total elderly population (60+ years, 2030)                & 2,100,000                              & 100\%                  \\
         \quad Urban elderly (20\% urbanization)$^a$               & 420,000                                & 20\%                   \\
-        \quad\quad 4th--5th quintile (middle-income)$^b$          & 168,000                                & 8\%                    \\
+        \quad\quad 4th--5th quintile (middle-income)$^b$          & \textbf{168,000}                       & \textbf{8\%}           \\
         \quad\quad\quad Conservative estimate (60\% adoption)$^c$ & \textbf{252,000}                       & \textbf{12\%}          \\
-        \quad\quad\quad Upper bound (90\% adoption)$^d$           & \textbf{378,000}                       & \textbf{18\%}          \\
         \midrule
         \multicolumn{3}{l}{\textit{Affordability Context}}                                                                          \\
         4th quintile monthly income                               & \multicolumn{2}{l}{\$870/month}                                 \\
@@ -509,9 +505,8 @@ The 252,000-378,000 range represents 12-18\% of Cambodia's projected elderly pop
         $^a$Urban elderly 20\% of total (lower than general 40\% urbanization due to rural concentration). \\
         $^b$420,000 × 40\% (4th-5th quintile share) = 168,000. \\
         $^c$Conservative: 168,000 × 1.5 (60\% adoption factor). \\
-        $^d$Upper bound: 90\% adoption among financially capable households. \\
         \textit{Sources.} Elderly population: UN DESA (2015). Income: Cambodia Socio-Economic Survey 2021. System costs: Validation analysis. Urbanization (20\%) and adoption factors are stated assumptions. \\
-        \textit{Note.} Edge system expands reach by 50\% vs. cloud alternatives (252,000--378,000 vs. ~126,000 limited to 5th quintile).
+        \textit{Note.} Edge system expands reach by 33-100\% vs. cloud alternatives (168,000--252,000 vs. ~126,000 limited to 5th quintile).
     \end{flushleft}
 \end{table}
 
@@ -538,7 +533,7 @@ The validation results (91.3\% keypoint detection on 850nm NIR footage) confirm 
 
 Edge architecture yields economic co-benefits beyond privacy protection. Eliminating cloud infrastructure reduces 3-year total cost by 61\% (\$672 vs. \$1,719), expanding market accessibility in ways that matter for health equity.
 
-The zero-subscription model removes recurring payment barriers particularly challenging for middle-income Cambodian households earning \$870-\$1,622/month, where \$45/month subscription represents 2.8-5.2\% of monthly income indefinitely. The estimated market reach of 252,000-378,000 elderly individuals (12-18\% of Cambodia's projected 2030 elderly population) represents meaningful expansion beyond high-income early adopters who can afford subscription-based cloud monitoring.
+The zero-subscription model removes recurring payment barriers particularly challenging for middle-income Cambodian households earning \$870-\$1,622/month, where \$45/month subscription represents 2.8-5.2\% of monthly income indefinitely. The estimated market reach of 168,000-252,000 elderly individuals (8-12\% of Cambodia's projected 2030 elderly population) represents meaningful expansion beyond high-income early adopters who can afford subscription-based cloud monitoring.
 
 Edge-based architecture expands accessibility beyond cloud alternatives, though substantial portions of elderly population remain unreached. Low-income and rural populations require alternative deployment models. Technology design alone cannot solve health equity challenges rooted in economic inequality; it can avoid exacerbating inequality through pricing structures that systematically exclude middle- and low-income populations. The zero-subscription edge model represents harm reduction—eliminating recurring payment barriers—rather than universal accessibility.
 
@@ -568,7 +563,7 @@ The integrated YOLO+MediaPipe approach achieved 5.7 percentage point higher keyp
 
 \textbf{Hardware deployment:} Processing speeds (20.53 FPS integrated, 47.37 FPS baseline) were measured on standard hardware, not on the target NVIDIA Jetson Orin Nano 8GB. Whether Jetson achieves similar speeds for 4-camera processing requires hardware-specific validation.
 
-\textbf{Market accessibility:} The 252,000-378,000 user estimate represents economic feasibility (households with financial capacity) but not actual adoption. Perceived need, technology trust, family dynamics, and alternative options beyond cost determine technology adoption.
+\textbf{Market accessibility:} The 168,000-252,000 user estimate represents economic feasibility (households with financial capacity) but not actual adoption. Perceived need, technology trust, family dynamics, and alternative options beyond cost determine technology adoption.
 
 \textbf{Generalizability:} Cambodia-specific characteristics (family caregiving traditions, middle-income household income ranges, limited data protection regulation) shape problem definition and solution constraints. The governance-driven design approach might transfer across contexts, but specific architectural choices require context-specific adaptation.
 
@@ -595,7 +590,7 @@ This study demonstrates privacy governance-driven architectural design through a
 
 \textbf{Technical feasibility.} Edge-based pose estimation achieves 91.3\% keypoint detection on 850nm NIR footage from affordable security cameras, validating 24/7 privacy-preserving monitoring capability without expensive visible-light or depth sensors. This establishes deployment feasibility: affordable cameras (\$63 each) can support pose-based fall detection, obviating need for cost-prohibitive sensor alternatives that exclude middle-income markets. The finding comes with caveats (12.3\% false negatives, 73.8-98.9\% range across individual videos, testing on general populations rather than elderly subjects), but NIR compatibility works adequately for this application.
 
-\textbf{Cost-effectiveness.} Edge architecture reduces 3-year total cost by 61\% compared to cloud-based fall detection alternatives (\$672 vs. \$1,719), expanding market reach to an estimated 252,000-378,000 elderly individuals in middle-income Cambodian households. The cost comparison reflects structural difference between one-time hardware investment and perpetual subscription fees, with edge system achieving breakeven at Month 13. The zero-subscription model eliminates recurring payment barriers that disproportionately affect households with variable income streams.
+\textbf{Cost-effectiveness.} Edge architecture reduces 3-year total cost by 61\% compared to cloud-based fall detection alternatives (\$672 vs. \$1,719), expanding market reach to an estimated 168,000-252,000 elderly individuals in middle-income Cambodian households. The cost comparison reflects structural difference between one-time hardware investment and perpetual subscription fees, with edge system achieving breakeven at Month 13. The zero-subscription model eliminates recurring payment barriers that disproportionately affect households with variable income streams.
 
 \textbf{Design trade-offs.} The selection of integrated YOLO+MediaPipe pipeline over simpler baseline approach—despite 2.3× slower processing speed—reflects safety-critical priority where accuracy trumps efficiency when both configurations exceed minimum requirements. The integrated pipeline's 5.7 percentage point higher keypoint detection and 22.2 percentage point better pose coverage provide reliability improvements for applications where false negatives (missed fall detections) carry potentially fatal consequences.
 
@@ -615,7 +610,7 @@ This study demonstrates privacy governance-driven architectural design through a
 
 \textbf{Privacy-by-design architecture yields economic co-benefits} beyond privacy protection: the 61\% cost reduction emerges from edge processing motivated by privacy governance that also eliminates cloud infrastructure expenses. Privacy and affordability need not trade off against each other.
 
-\textbf{Zero-subscription models expand healthcare technology accessibility} in middle-income markets, reaching an estimated 12-18\% of elderly population. However, low-income and rural elderly require different deployment approaches—potentially subsidized programs, community-based installations, or policy interventions—that technology design alone cannot provide.
+\textbf{Zero-subscription models expand healthcare technology accessibility} in middle-income markets, reaching an estimated 8-12\% of elderly population. However, low-income and rural elderly require different deployment approaches—potentially subsidized programs, community-based installations, or policy interventions—that technology design alone cannot provide.
 
 \textbf{Governance frameworks require implementation guidance} specific to developing country contexts rather than assuming Western regulatory models (GDPR, HIPAA) apply universally. When data protection regulations provide limited enforcement, privacy protection must emerge from system architecture rather than compliance mechanisms.
 

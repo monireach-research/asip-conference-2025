@@ -33,7 +33,7 @@
 **Evidence**:
 - 61% cost reduction vs cloud alternatives ($672 one-time vs $1,719 over 3 years)
 - Target market: Middle-income Cambodian households ($870-$1,622/month)
-- Market reach: 252,000-378,000 elderly (12-18% of population by 2030)
+- Market reach: 168,000-252,000 elderly (8-12% of population by 2030)
 - Zero-subscription model eliminates recurring payment burden
 
 **Policy Implication**: Privacy-by-design architecture can yield accessibility benefits beyond privacy protection alone.
@@ -109,12 +109,12 @@
 - **Edge-based system**: $672 (one-time, zero recurring fees)
 - **Cloud alternative** (Kami Fall Detect): $1,719 over 3 years ($99 hardware + $1,620 subscription)
 - **Savings**: 61% reduction ($1,047 savings)
-- **Impact**: Expands market reach to 252,000-378,000 elderly (12-18% of Cambodian population)
+- **Impact**: Expands market reach to 168,000-252,000 elderly (8-12% of Cambodian population)
 
 ### Market Reach
 - **Target**: Middle-income urban households (top 40-60% income bracket)
-- **Population**: 12-18% of Cambodian elderly
-- **By 2030**: 252,000-378,000 potential users
+- **Population**: 8-12% of Cambodian elderly
+- **By 2030**: 168,000-252,000 potential users
 
 ### Privacy Metrics
 - **Facial anonymity**: 100% (no facial features stored)
@@ -130,7 +130,7 @@
 
 ## Elevator Pitch (30 seconds)
 
-"Our design study demonstrates how privacy governance principles can inform AI architecture for elderly safety monitoring in developing countries. Using edge computing with pose-only storage, we validated NIR camera compatibility (91.3% keypoint detection) while achieving 61% cost reduction vs cloud alternatives ($672 vs $1,719). This expands market reach to 252,000-378,000 Cambodian elderly, showing how privacy-first design can yield economic co-benefits."
+"Our design study demonstrates how privacy governance principles can inform AI architecture for elderly safety monitoring in developing countries. Using edge computing with pose-only storage, we validated NIR camera compatibility (91.3% keypoint detection) while achieving 61% cost reduction vs cloud alternatives ($672 vs $1,719). This expands market reach to 168,000-252,000 Cambodian elderly, showing how privacy-first design can yield economic co-benefits."
 
 ---
 
@@ -140,7 +140,7 @@
 "Privacy-by-design isn't just a buzzword—our architecture makes facial recognition impossible by design, not by policy."
 
 ### For Policy Makers
-"Privacy-first architecture yields economic co-benefits: edge computing achieves 61% cost reduction ($672 vs $1,719), expanding access to 252,000-378,000 Cambodian elderly."
+"Privacy-first architecture yields economic co-benefits: edge computing achieves 61% cost reduction ($672 vs $1,719), expanding access to 168,000-252,000 Cambodian elderly."
 
 ### For Healthcare Innovators
 "We detect the incidents that matter most: 37.7% of Thai elderly accidents are falls while walking—our system catches them in real-time."

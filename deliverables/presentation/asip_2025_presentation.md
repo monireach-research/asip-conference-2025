@@ -231,15 +231,13 @@ This approach is called privacy by design. The difference from typical systems: 
 
 ### Speaker Notes
 
-Let me give you a quick overview of the technical setup—don't worry, I'll keep this simple.
+Let me give you a quick overview of the technical setup. I'll keep this simple.
 
 **Hardware: Four cameras positioned around the room**, 90 degrees apart, so they cover the entire space—360-degree coverage. These are ordinary security cameras, but they have infrared night vision. That means they work in complete darkness, 24/7. No need to keep lights on at night. Total cost for the whole system: $672 one-time payment. No monthly fees.
 
-**Software: Three steps**. First, the system detects where the person is in the video frame—just finds the person. Second, it extracts the body pose—those 17 skeleton points we talked about earlier. Third, our privacy layer kicks in—deletes the video frame immediately, keeps only the pose coordinates. That's it.
+**Software: Three steps**. First, the system detects where the person is in the video frame—just finds the person. Second, it extracts the body pose—those 17 skeleton points we talked about earlier. Third, our privacy layer kicks in—deletes the video frame immediately, keeps only the pose coordinates for further deep leaning model processing.
 
-This is the technical architecture we validated. I'm happy to discuss implementation details during Q&A if anyone's interested in the specific AI models or camera specifications.
-
-**Transition**: Now, what exactly did we validate in this study?
+**Transition**: Now, let's have a look at the results of our validation using this architecture.
 
 ---
 
@@ -277,13 +275,11 @@ This is the technical architecture we validated. I'm happy to discuss implementa
 
 Let's look at our first validation result: does AI pose detection actually work on infrared night vision cameras?
 
-**Testing approach:** We collected 20 commercial security camera videos from different manufacturers—Hikvision, EZviz, dome cameras, bullet cameras—filmed in different environments, both indoor and outdoor. These are real infrared videos at 1080p and 4K resolution. We wanted to see if our software works across different camera types, not just one specific model.
+**Testing approach:** We collected 20 commercial security camera videos from different manufacturers—Hikvision, EZviz, dome cameras, bullet cameras—filmed in different environments, both indoor and outdoor. These are real infrared videos at 1080p and 4K resolution. We tested to see if our software works across different camera types, not just one specific model.
 
-**The results:** Our system detected body poses in 91.3% of video frames. That's detecting about 30 out of 33 body points per frame. The confidence score averaged 0.868—in simple terms, the system is quite certain about what it's detecting. False negatives—situations where a person is there but the system fails to detect their pose—happened 12.3% of the time. Processing speed was about 20 frames per second.
+**The results:** The system detected body poses in 91.3% of video frames. That's detecting about 30 out of 33 body points per frame. The confidence score averaged 0.868—in simple terms, the system is quite certain about what it's detecting. False negatives—situations where a person is there but the system fails to detect their pose—happened 12.3% of the time. Processing speed was about 20 frames per second.
 
-**Why this matters:** The AI model we're using—MediaPipe—was originally trained on regular color images in daylight. We're testing it on infrared footage in complete darkness. And it works. This confirms you can monitor elderly people 24/7 using cheap security cameras without needing facial recognition technology. You get privacy by design while maintaining monitoring capability.
-
-Very little research has actually tested whether pose detection works on the specific infrared wavelength used in affordable security cameras. We're showing it does.
+**Why this matters:** The AI model we're using—MediaPipe—was originally trained on regular color images in daylight. Very little research has actually tested whether pose detection works on the specific infrared wavelength used in affordable security cameras. We're testing it on infrared footage in complete darkness. And it works. This confirms you can monitor elderly people 24/7 using economical security cameras without needing facial recognition technology.
 
 **Transition**: Now let me show you the cost-effectiveness analysis.
 
@@ -311,8 +307,8 @@ Very little research has actually tested whether pose detection works on the spe
 **Target Market**: Middle-income urban Cambodian households
 
 - 4th-5th income quintile: $870-$1,622/month
-- **Estimated Reach**: 12-18% of elderly population
-- **Potential Users by 2030**: 252,000-378,000 individuals
+- **Estimated Reach**: 8-12% of elderly population
+- **Potential Users by 2030**: 168,000-252,000 individuals
 
 **Key Advantage**: Zero-subscription model eliminates ongoing payment burden
 
@@ -321,7 +317,7 @@ Very little research has actually tested whether pose detection works on the spe
 
 ### Speaker Notes
 
-Now let's talk about cost. Does privacy-first design actually save money?
+Now, we are analyzing if privacy-first design actually saves money.
 
 **Our system costs $672 upfront.** That's $252 for four cameras, $250 for the edge processor, and $170 for accessories like storage and cables. One-time payment. No monthly fees. Ever.
 
@@ -331,7 +327,7 @@ Now let's talk about cost. Does privacy-first design actually save money?
 
 **Who can afford this?** We're targeting middle-income Cambodian households—families earning 870 to 1622 US Dollars per month. That's the fourth and fifth income quintiles. For these families, a $45 monthly subscription means paying 5.2% of their income every single month, indefinitely. Our $672 one-time cost is equivalent to about half a month's income. Families can save up for it, or pool money together.
 
-**Market reach:** We estimate this could reach 12 to 18% of Cambodia's elderly population—those living in urban middle-income households, totalling 252,000 to 378,000 people by 2030.
+**Market reach:** We estimate this could reach 8 to 12% of Cambodia's elderly population—those living in urban middle-income households (4th-5th income quintiles), totalling 168,000 to 252,000 people by 2030.
 
 Here's the key point: we eliminated cloud infrastructure for privacy reasons. The cost savings is a side benefit. Privacy governance actually enables affordability.
 
@@ -357,8 +353,8 @@ Tested two approaches on same 20 NIR videos:
 
 | Metric             | Baseline  | Integrated | Difference         |
 | ------------------ | --------- | ---------- | ------------------ |
-| Keypoint Detection | 86.1%     | 91.3%      | **+5.7%** ✓        |
-| Pose Coverage      | 79.5%     | 96.9%      | **+22.2%** ✓       |
+| Keypoint Detection | 85.6%     | 91.3%      | **+5.7%** ✓        |
+| Pose Coverage      | 63.8%     | 86.0%      | **+22.2%** ✓       |
 | Processing Speed   | 47.37 FPS | 20.53 FPS  | **2.3× slower** ❌ |
 
 ## Decision: Integrated Pipeline Selected
@@ -374,19 +370,15 @@ Tested two approaches on same 20 NIR videos:
 
 ### Speaker Notes
 
-After designing our privacy-first architecture, we needed to validate it actually works technically. So we tested two different approaches to see which performs better.
+There are two possible approaches for human pose estimation. One is Baseline, using standalone MediaPipe, which means to just run pose detection on the whole video frame. The other one is Integrated, combining YOLOv8n with MediaPipe, which means to first detect where the person is, crop that area, then run pose detection on just that cropped region.
 
-**Baseline**: Just run pose detection on the whole video frame. Simple.
+**The trade-off**: The integrated approach is 2.3 times slower. It only processes 20 frames per second, while baseline achieves 47. However, the integrated approach is far more accurate, detecting 5.7% more keypoints and having 22.2% better pose coverage than baseline. Pose Coverage refers to the percentage of frames with human where a pose is detected.
 
-**Integrated**: First detect where the person is, crop that area, then run pose detection on just that cropped region. More complex.
+We've chosen the integrated pipeline, because accuracy matters more than speed in this context. If the system misses a fall—if grandma falls and the camera doesn't detect it—that could be fatal. Speed is nice to have. Accuracy is life-or-death.
 
-**The trade-off**: The integrated approach is more accurate—it detects 5.7% more keypoints and has 22% better coverage. But it's 2.3 times slower. The baseline processes 47 frames per second. The integrated version? Only 20 frames per second.
+And here's the important part: even the slower integrated pipeline runs at 20 frames per second. Standard real-time monitoring is 15 frames per second. We're still well above that threshold.
 
-**Which did we choose?** The integrated pipeline. Why? Because accuracy matters more than speed in this context. If the system misses a fall—if grandma falls and the camera doesn't detect it—that could be fatal. Speed is nice to have. Accuracy is life-or-death.
-
-And here's the important part: even the slower integrated pipeline runs at 20 frames per second. Our target for real-time monitoring is 15 frames per second. We're still well above that threshold.
-
-This shows a governance principle at work: technical metrics don't exist in a vacuum. You have to evaluate performance against consequences. In safety-critical healthcare applications, we optimize for accuracy first, speed second.
+This shows a governance principle at work: technical metrics don't exist in a vacuum. We have to evaluate performance against consequences. In safety-critical healthcare applications, we optimize for accuracy first, speed second.
 
 **Transition**: These technical results lead to broader governance implications.
 
@@ -411,7 +403,7 @@ This shows a governance principle at work: technical metrics don't exist in a va
 2. **Privacy governance creates economic co-benefits**
 
    - Edge architecture (for privacy) → 61% cost savings
-   - Makes healthcare AI accessible to middle-income markets
+   - Makes healthcare AI accessible to middle-income markets (8-12% reach)
 
 3. **Context-specific design matters**
    - Cambodia's economic constraints shaped our architecture
@@ -426,17 +418,19 @@ This shows a governance principle at work: technical metrics don't exist in a va
 
 Let me connect the dots on what these results mean for governance.
 
-**First key finding:** Privacy by design actually works. We proved you can build a privacy-first system that performs well—91.3% detection rate on infrared cameras. You don't have to choose between privacy and performance.
+**First key finding:** Privacy by design actually works. Our work proved we can build a privacy-first system that performs well—91.3% detection rate on infrared cameras. we don't have to choose between privacy and performance.
 
 **Second:** Privacy governance creates unexpected economic benefits. We eliminated cloud infrastructure for privacy reasons, which also eliminated subscription costs. This makes healthcare AI affordable for middle-income markets in developing countries. Privacy governance enables accessibility governance.
 
-**Third:** Context-specific design matters. We designed for Cambodia's economic constraints—targeting families earning 870 to 1,622 US Dollars per month. This approach scales to other developing countries with similar resource constraints.
+**Third:** Context-specific design matters. We designed for Cambodia's economic constraints. This approach scales to other developing countries with similar resource constraints.
 
 The bottom line: governance principles can drive technical architecture from inception, not as afterthoughts. We're showing how to do privacy-first AI design in practice.
 
+**Transition**: Let me address limitations and future directions.
+
+<!--
 **Transition**: Let me ground this in the Cambodia context.
 
----
 
 ## SLIDE 11: Regional Impact - Cambodia Case Study
 
@@ -452,7 +446,7 @@ The bottom line: governance principles can drive technical architecture from inc
 - **Target**: 4th-5th quintile (870-1,622 US Dollars/month household income)
 - **Rationale**: Cloud subscription ($45/month) = 5.2% of monthly income indefinitely
 - **Edge alternative**: $672 one-time = 0.5-0.8 months income, zero recurring fees
-- **Market reach**: 252,000-378,000 Cambodian elderly by 2030 (12-18%)
+- **Market reach**: 168,000-252,000 Cambodian elderly by 2030 (8-12%)
 
 ## Why This Matters: Scalability
 
@@ -466,7 +460,7 @@ Key constraints our design addresses:
 
 **This model can scale to similar developing country contexts**
 
-<!-- VISUAL: Income distribution chart showing target quintiles; regional map -->
+VISUAL: Income distribution chart showing target quintiles; regional map
 ```
 
 ### Speaker Notes
@@ -475,7 +469,7 @@ Let me show you why the Cambodia context matters.
 
 **Who are we designing for?** Middle-income Cambodian households—families earning 870 to 1,622 US Dollars per month. That's the fourth and fifth income quintiles according to Cambodia's Socio-Economic Survey. These families face a real problem: cloud subscriptions cost $45 monthly, which is 5.2% of their income every single month. That's not sustainable long-term.
 
-Our edge-based system costs $672 one-time. That's equivalent to about half a month to a full month of income—a significant upfront cost, yes, but families can save for it or pool resources. And then? Zero recurring fees. This model could reach 252,000 to 378,000 Cambodian elderly by 2030—that's 12 to 18% of the elderly population living in urban middle-income households.
+Our edge-based system costs $672 one-time. That's equivalent to about half a month to a full month of income—a significant upfront cost, yes, but families can save for it or pool resources. And then? Zero recurring fees. This model could reach 168,000 to 252,000 Cambodian elderly by 2030—that's 8 to 12% of the elderly population living in urban middle-income households.
 
 **Why does Cambodia matter beyond Cambodia?** Cambodia serves as a proof-of-concept for resource-constrained contexts. We designed for specific constraints: aging populations, middle-income markets, privacy concerns without strong enforcement, cost sensitivity, and bandwidth limitations.
 
@@ -483,9 +477,11 @@ If privacy-first architecture works here—technically and economically—it can
 
 **Transition**: Let me address limitations and future directions.
 
+-->
+
 ---
 
-## SLIDE 12: Limitations & Future Directions
+## SLIDE 11: Limitations & Future Directions
 
 ### Content
 
@@ -538,7 +534,7 @@ Longer-term, we need user acceptance studies. Will elderly people and their care
 
 ---
 
-## SLIDE 13: Conclusion - Key Takeaways
+## SLIDE 12: Conclusion - Key Takeaways
 
 ### Content
 
@@ -560,7 +556,7 @@ Longer-term, we need user acceptance studies. Will elderly people and their care
 3. **Privacy-by-design yields economic co-benefits**
 
    - Edge architecture eliminates cloud costs → expands accessibility
-   - Market reach: 252,000-378,000 Cambodian elderly (12-18%)
+   - Market reach: 168,000-252,000 Cambodian elderly (8-12%)
 
 4. **Context-specific design matters for resource-constrained settings**
    - Economic constraints shape architecture decisions
@@ -583,38 +579,16 @@ Longer-term, we need user acceptance studies. Will elderly people and their care
 
 ### Speaker Notes
 
-Let me wrap up with four key takeaways.
+To conclude: There are four key takeaways.
 
-**First:** Privacy governance can drive technical design from day one. We're not adding privacy controls after building the system—we're building privacy into the architecture itself. Edge processing, pose-only storage, immediate frame disposal. The system physically cannot violate privacy because the architecture prevents it.
+Privacy governance can drive architecture from inception—we demonstrated this is both technically and economically feasible. Edge-first design achieved strong performance while reducing costs and expanding accessibility. Cambodia serves as proof-of-concept for resource-constrained contexts globally.
 
-**Second:** Privacy-first design doesn't sacrifice performance. We validated 91.3% keypoint detection on infrared footage—the system works in complete darkness, 24/7. And we demonstrated 61% cost savings compared to cloud alternatives. $672 one-time versus $1,719 over three years.
+Three groups should care about this work:
 
-**Third:** Privacy creates unexpected economic benefits. We eliminated cloud infrastructure for privacy reasons, which also eliminated subscription costs. This makes the technology affordable for middle-income markets—reaching 252,000 to 378,000 Cambodian elderly, 12 to 18% of the population.
+- Researchers should validate infrared camera compatibility before deployment, as we found performance varies significantly by camera type
+- Policymakers should recognize that privacy-first architecture can actually expand accessibility in middle-income markets through cost reduction
+- Practitioners building elderly care systems should consider zero-subscription models to reduce ongoing cost barriers in developing countries.
 
-**Fourth:** Context-specific design matters. We designed for Cambodia's economic constraints—targeting families earning 870 to 1,622 US Dollars per month. This isn't just about Cambodia. It's a proof-of-concept showing privacy-first architecture can work in resource-constrained settings.
-
-**What does this mean practically?** Three groups should care about this work. Researchers: validate infrared camera compatibility before you deploy—we found performance varies significantly by camera type. Policymakers: recognize that privacy-first architecture can actually expand accessibility in middle-income markets through cost reduction. Practitioners building elderly care systems: consider zero-subscription models to reduce ongoing cost barriers in developing countries.
-
-Thank you for your attention. I'm happy to take questions.
-
----
-
-## SLIDE 14: Questions & Discussion
-
-### Content
-
-```md
-# Questions & Discussion
-
-**Thank you for your attention**
-
-**Time for Q&A**
-
-**Contact Information**:
-
-- Email: [Your Email]
-- Institution: Cambodia University of Technology and Science (CamTech)
-- Research Project: [Link if applicable]
-```
+Thank you for your attention. I'm happy to take questions if any.
 
 ---

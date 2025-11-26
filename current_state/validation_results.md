@@ -221,7 +221,7 @@
 |--------|---------------------------|------------------------------|--------|---------|
 | **Processing Speed** | 47.37 FPS | 20.53 FPS | -56.7% | Baseline |
 | **Keypoint Detection** | 85.6% | **91.3%** | **+5.7%** | Integrated |
-| **Confidence Score** | 0.833 | **0.869** | +0.036 | Integrated |
+| **Confidence Score** | 0.833 | **0.868** | +0.036 | Integrated |
 | **Pose Coverage** | 63.8% | **86.0%** | **+22.2%** | Integrated |
 
 ### Key Findings

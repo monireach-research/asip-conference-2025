@@ -146,14 +146,14 @@ Cambodia expects 14 to 20% of its population to be elderly by 2030. Alongside th
 **Market Reach Correction**:
 
 - **Submitted**: "180,000 elderly"
-- **Actual**: 252,000-378,000 elderly (12-18% of Cambodian elderly population by 2030)
+- **Actual**: 168,000-252,000 elderly (8-12% of Cambodian elderly population by 2030)
 - **Impact**: Market reach expanded due to refined cost-effectiveness analysis
 
 **Income Bracket Clarification**:
 
 - **Submitted**: "top 50% income bracket"
 - **Actual**: 4th-5th quintile (middle-income urban households earning $870-$1,622/month)
-- **Impact**: More precise demographic targeting (12-18% of elderly population, not 50%)
+- **Impact**: More precise demographic targeting (8-12% of elderly population, not 50%)
 
 **Paper Classification Refinement**:
 

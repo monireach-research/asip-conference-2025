@@ -1,10 +1,10 @@
 # Next Steps
 
-**Last Updated**: Nov 16, 2025 (PAPER SUBMITTED - All priorities 1-18 complete)
+**Last Updated**: Nov 26, 2025 (Presentation finalized, abstract revised)
 
 ---
 
-## Current Phase: ✅ SUBMISSION COMPLETE
+## Current Phase: ✅ PAPER ACCEPTED - PRESENTATION READY
 
 **Status**:
 - Abstract submitted Oct 28, 2025 ✅
@@ -12,8 +12,11 @@
 - Paper drafted Nov 15, 2025 ✅
 - Tables/figures integrated Nov 16, 2025 ✅
 - **FULL PAPER SUBMITTED Nov 16, 2025** ✅
+- **PAPER ACCEPTED Nov 18, 2025** ✅
+- **PRESENTATION PREPARED Nov 18, 2025** ✅
+- **ABSTRACT REVISED Nov 26, 2025** ✅ (per reviewer feedback: added "Findings" section, trimmed to 247 words)
 
-**Next Phase**: Await conference decision (acceptance notification expected before Dec 4-5 conference dates)
+**Next Phase**: Conference attendance (Dec 4-5, 2025)
 
 ---
 
@@ -48,7 +51,7 @@
 
 - Hardware: 3× cameras → 4× RGB cameras with 850nm IR (90° spacing)
 - Cost: $540 → $672 total system cost
-- Market reach: 180,000 → 252,000-378,000 elderly (12-18%)
+- Market reach: 180,000 → 168,000-252,000 elderly (8-12%)
 - Validation completed: NIR compatibility 91.3%, pipeline 20.53 FPS
 - Correction notes added to abstract.md
 
@@ -284,14 +287,14 @@
 - **Table 1**: Cost Comparison (Edge $672 vs Cloud $1,719 over 3 years, 61% reduction)
 - **Table 2**: NIR Validation Results (91.3% detection, 0.868 confidence, 20.53 FPS) - CORRECTED (removed fabricated n= counts)
 - **Table 3**: Pipeline Comparison (Baseline vs Integrated, speed-accuracy trade-off) - CORRECTED (fixed baseline values: 85.6%, 0.833, 63.8%)
-- **Table 4**: Market Reach Analysis (252k-378k elderly, 12-18% of population) - footnotes condensed
+- **Table 4**: Market Reach Analysis (252k-378k elderly, 8-12% of population) - footnotes condensed
 - **Figure 1**: System Architecture Diagram (PNG showing 4 cameras → edge processor → privacy mechanisms)
 - **Figure 2**: Privacy Governance Framework - SKIPPED (user decision: too messy, trivial)
 
 **Data Quality Fixes**:
 
 - Removed fabricated statistics from Table 2 (n=12 indoor, n=8 outdoor, n=7 cameras)
-- Corrected 5 wrong baseline values in Table 3 (86.1%→85.6%, 0.823→0.833, 79.5%→63.8%, etc.)
+- Corrected 5 wrong baseline values in Table 3 (86.1%→85.6%, 0.823→0.833, 63.8%→63.8%, etc.)
 - Removed "14.2--28.7 FPS" range (not in source data)
 
 ---
@@ -410,16 +413,26 @@
 
 ---
 
-## Future Priorities (If Paper Accepted)
+## Future Priorities
 
-### Priority 19: Prepare Presentation
+### ✅ Priority 19: Prepare Presentation
 
-**Tasks**:
+**Status**: COMPLETE (Nov 18, 2025) + **Updated Nov 26, 2025**
 
-- [ ] Create slide deck (focus on governance themes)
-- [ ] Visual aids (system architecture, cost comparison)
-- [ ] Rehearse presentation
-- [ ] Save to deliverables/presentation/
+**Completed Tasks**:
+
+- [x] Create slide deck (14 slides: 13 content + Q&A)
+- [x] Visual aids (system architecture, cost comparison charts, population pie charts)
+- [x] Write comprehensive speaker notes for all slides
+- [x] Create Q&A preparation guide (20 questions across 7 topic areas)
+- [x] Extract speaker notes to print-ready document (Nov 26)
+- [x] Add Pose Coverage explanation to presentation materials (Nov 26)
+- [x] Save to deliverables/presentation/
+
+**Files Created**:
+- asip_2025_presentation.md (14 slides with speaker notes)
+- qa_preparation_guide.md (20 Q&A scenarios)
+- extracted_speaker_notes.md (print-ready for Dec 4-5)
 
 ---
 
@@ -431,6 +444,8 @@
 **Tasks**:
 
 - [ ] Register for conference
+- [ ] Practice presentation with timing (target: 20 minutes)
+- [ ] Print speaker notes and Q&A guide
 - [ ] Deliver presentation
 - [ ] Network with AI ethics/policy researchers
 - [ ] Collect feedback for future research
@@ -454,7 +469,7 @@
 **Market Reach**:
 
 - Target: Middle-income Cambodian households (4th-5th quintile, $870-$1,622/month)
-- Population: 252,000-378,000 elderly (12-18% by 2030)
+- Population: 168,000-252,000 elderly (8-12% by 2030)
 
 **Paper Type**: Design study demonstrating how privacy governance principles inform architectural decisions (NOT framework paper)
 

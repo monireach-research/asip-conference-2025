@@ -80,15 +80,19 @@
 \thispagestyle{empty}
 
 % Abstract body
-\textbf{Purpose} -- This design study demonstrates how privacy governance principles can inform architectural decisions from inception rather than being retrofitted post-deployment, preserving privacy in elderly safety monitoring and enforcing sensitive data protection, while maintaining cost-effectiveness in Cambodia context.
+\textbf{Purpose} -- This design study demonstrates how privacy governance can inform architectural decisions from inception rather than being retrofitted post-deployment, preserving privacy in elderly safety monitoring and enforcing data protection, while maintaining cost-effectiveness in Cambodia.
 
 \vspace{0.5em}
 
-\textbf{Design/methodology/approach} -- The study validates technical feasibility and cost-\allowbreak{}effectiveness, using edge-based architecture pipeline comprising four RGB cameras with 850nm infrared night vision and an NVIDIA Jetson Orin Nano edge computing platform, on 20 commercial video footages, following this chronological approach: 1) Integrating YOLOv8n for person detection, defining the Region of Interest (ROI) from video frames; 2) Converting the ROI to skeletal coordinates using MediaPipe, representing the 17 body keypoints in COCO format; 3) Storing the skeletal coordinates (only); 4) Permanent deletion of original footage; 5) Incident classification using a hybrid CNN+LSTM+Transformer architecture.
+\textbf{Design/methodology/approach} -- The study validates technical feasibility and cost-\allowbreak{}effectiveness, using edge-based pipeline comprising four NIR cameras with 850nm IR and an NVIDIA Jetson Orin Nano edge computing platform, on 20 commercial video footages, following this chronological approach: 1) Integrating YOLOv8n for person detection, defining the Region of Interest (ROI); 2) Converting the ROI to skeletal coordinates using MediaPipe, representing the 17 body keypoints in COCO format; 3) Storing the skeletal coordinates (only); 4) Permanent deletion of original footage; 5) Incident classification using a hybrid CNN+LSTM+Transformer architecture.
 
 \vspace{0.5em}
 
-\textbf{Practical Implications/Limitations} -- Validating the 20 footages demonstrates 91.3\% keypoint detection with 20.53FPS processing speed, confirming 24/7 monitoring capability without facial recognition. Cost analysis shows edge architecture reduces 3-year total cost by 61\% compared to cloud alternatives, reaching 252,000-378,000 middle-income urban elderly (12-18\% of Cambodia's elderly) by 2030. Limitations include a lack of validation on benchmark datasets and pending hardware testing on actual Jetson Orin Nano deployment.
+\textbf{Findings} -- Validating the 20 footages demonstrates 91.3\% keypoint detection with 20.53FPS processing speed, confirming 24/7 monitoring capability without facial recognition. Cost analysis shows 3-year total cost reduction by 61\% compared to cloud alternatives, achieving breakeven at month 13.
+
+\vspace{0.5em}
+
+\textbf{Practical Implications/Limitations} -- The architecture expands market accessibility to 168,000-252,000 middle-income urban elderly (8-12\% of Cambodia's elderly) by 2030. Limitations include no validation on benchmark datasets and pending hardware testing on actual Jetson Orin Nano deployment.
 
 \vspace{0.5em}
 
